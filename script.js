@@ -115,6 +115,13 @@ const I18N_EN = {
   "news.n2": "First shipment of Shima's used fishing vessels has departed (giving retired fishermen's boats a second life).",
   "news.n3": "Facility registration for Vietnam and international certification work begins.",
 
+  "docs.title": "Documents",
+  "docs.lead": "The council's articles, internal rules and business plan are available as PDFs.",
+  "docs.d1": "Articles of Association",
+  "docs.d2": "Organizational Rules",
+  "docs.d3": "Accounting Rules",
+  "docs.d4": "FY2026 Business Plan",
+
   "contact.title": "Trade, visits and media inquiries",
   "contact.lead": "Overseas buyers, restaurants and retailers, press and government — we would love to hear from you.",
   "form.name": "Your name",

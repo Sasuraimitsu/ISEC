@@ -204,7 +204,12 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
   border-left: 1px solid rgba(201,146,54,.6);
   padding-left: 26px;
   height: min(58vh, 520px);
+  min-height: 12em; /* 1行目「御食国の食材を、」が途中で折り返さないための保険 */
   text-shadow: 0 2px 18px rgba(0,0,0,.35);
+}
+/* 2行目「世界へ。」を一段下げて表示（段違いの縦書き） */
+.hero-tategaki .tategaki-shift {
+  padding-top: 2.4em; /* 下げ幅はここで調整 */
 }
 
 /* 波の区切り */
@@ -368,6 +373,26 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
   padding: 2px 10px;
 }
 .news-list p { font-size: 14.5px; }
+
+/* =========================================================
+   規程・公開資料（PDF）
+   ========================================================= */
+.docs { background: var(--foam, #f4f7f8); padding-top: 72px; }
+.docs-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.docs-list a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 18px; background: #fff; border-radius: 6px;
+  border: 1px solid rgba(20,60,80,.12);
+  font-size: 14.5px; text-decoration: none; color: inherit;
+  transition: border-color .2s, box-shadow .2s;
+}
+.docs-list a:hover { border-color: rgba(201,146,54,.6); box-shadow: 0 4px 16px rgba(0,0,0,.06); }
+.docs-num {
+  flex: 0 0 auto; font-size: 11.5px; letter-spacing: .1em;
+  color: var(--ink-weak); border: 1px solid rgba(20,60,80,.2);
+  border-radius: 4px; padding: 3px 8px;
+}
+.docs-type { margin-left: auto; font-size: 11px; letter-spacing: .12em; color: rgba(201,146,54,.95); font-weight: 700; }
 
 /* ---------- お問い合わせ ---------- */
 .contact {
