@@ -1,0 +1,10 @@
+﻿data/news.json の配列のいちばん上に追加する1件（可決日＝令和8年7月24日に合わせ 2026.07 としています）：
+
+  {
+    "date": "2026.07",
+    "datetime": "2026-07",
+    "tag_ja": "お知らせ",
+    "tag_en": "Notice",
+    "body_ja": "定款を一部改定し、総会決議・議事録の電子化（電磁的方法・電子署名）に対応しました。改定後の定款は「規程・公開資料」からご覧いただけます。",
+    "body_en": "Our articles of association have been amended to allow electronic resolutions and e-signatures. The revised articles are available under Documents."
+  },
