@@ -5,6 +5,10 @@
    ========================================================= */
 const CONTACT_EMAIL = "generalaffairs.isec@gmail.com"; // ← 変更してください
 
+// 動的コンテンツ用データ（お知らせ・事業計画/報告）：初期化前参照を避けるため冒頭で宣言
+let newsData = [];
+let docsData = [];
+
 /* =========================================================
    多言語辞書
    ・HTML側の data-i18n（テキスト）/ data-i18n-html（<br>等を含む）
@@ -116,11 +120,14 @@ const I18N_EN = {
   "news.n3": "Facility registration for Vietnam and international certification work begins.",
 
   "docs.title": "Documents",
-  "docs.lead": "The council's articles, internal rules and business plan are available as PDFs.",
+  "docs.lead": "The council's articles and internal rules, along with its business plans and reports, are available as PDFs.",
+  "docs.g1": "Rules & Regulations",
+  "docs.g2": "Business Plans & Reports",
+  "docs.loading": "Loading…",
   "docs.d1": "Articles of Association",
   "docs.d2": "Organizational Rules",
   "docs.d3": "Accounting Rules",
-  "docs.d4": "FY2026 Business Plan",
+  "news.loading": "Loading…",
 
   "contact.title": "Trade, visits and media inquiries",
   "contact.lead": "Overseas buyers, restaurants and retailers, press and government — we would love to hear from you.",
@@ -191,6 +198,10 @@ function applyLang(lang) {
 
   // 選択を記憶（プライベートモード等で失敗しても無視）
   try { localStorage.setItem(LANG_KEY, currentLang); } catch (_) {}
+
+  // 動的生成部（お知らせ・事業計画/報告）を再描画
+  if (typeof renderNews === "function") renderNews();
+  if (typeof renderDocs === "function") renderDocs();
 }
 
 // 初期言語：保存値 → ブラウザ言語 → 日本語
@@ -240,23 +251,27 @@ if (navToggle && globalNav) {
 /* ---------------------------------------------------------
    スクロール出現
 --------------------------------------------------------- */
-const revealTargets = document.querySelectorAll(".reveal");
-if ("IntersectionObserver" in window && revealTargets.length > 0) {
-  const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
-  );
-  revealTargets.forEach((el) => revealObserver.observe(el));
-} else {
-  revealTargets.forEach((el) => el.classList.add("is-visible"));
+const revealObserver =
+  "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+      )
+    : null;
+
+function observeReveal(el) {
+  if (revealObserver) revealObserver.observe(el);
+  else el.classList.add("is-visible");
 }
+
+document.querySelectorAll(".reveal").forEach(observeReveal);
 
 /* ---------------------------------------------------------
    航路ステップの点灯
@@ -368,3 +383,103 @@ if (mailFallback) {
 }
 const yearEl = document.getElementById("year");
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+/* =========================================================
+   お知らせ／事業計画・報告の自動生成
+   ---------------------------------------------------------
+   ・お知らせ本文は  data/news.json     を編集するだけで更新できます。
+   ・事業計画/報告は data/documents.json を編集し、
+     PDFを docs/ に置くだけで一覧に追加されます（HTMLの編集は不要）。
+   ・番号ルール：事業計画=P-YYMMDD／事業報告=R-YYMMDD（YYMMDD=承認日）。
+   ========================================================= */
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"]/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])
+  );
+}
+
+function renderNews() {
+  const list = document.getElementById("newsList");
+  if (!list) return;
+  if (!newsData.length) {
+    list.innerHTML =
+      '<li class="news-empty">' +
+      (currentLang === "en" ? "No news yet." : "お知らせはまだありません。") +
+      "</li>";
+    return;
+  }
+  list.innerHTML = newsData
+    .map((n) => {
+      const tag = currentLang === "en" ? n.tag_en || n.tag_ja : n.tag_ja;
+      const body = currentLang === "en" ? n.body_en || n.body_ja : n.body_ja;
+      return (
+        '<li class="reveal"><time datetime="' +
+        esc(n.datetime || "") +
+        '">' +
+        esc(n.date || "") +
+        '</time><span class="news-tag">' +
+        esc(tag) +
+        '</span><p>' +
+        esc(body) +
+        "</p></li>"
+      );
+    })
+    .join("");
+  list.querySelectorAll(".reveal").forEach(observeReveal);
+}
+
+function renderDocs() {
+  const list = document.getElementById("plansList");
+  if (!list) return;
+  if (!docsData.length) {
+    list.innerHTML =
+      '<li class="news-empty">' +
+      (currentLang === "en" ? "No documents yet." : "資料はまだありません。") +
+      "</li>";
+    return;
+  }
+  // 番号の日付部分（新しい順）で並べ替え
+  const sorted = docsData
+    .slice()
+    .sort((a, b) => String(b.no).slice(2).localeCompare(String(a.no).slice(2)));
+  list.innerHTML = sorted
+    .map((d) => {
+      const isReport = d.type === "report" || /^R-/.test(d.no || "");
+      const cls = isReport ? "is-report" : "is-plan";
+      const title = currentLang === "en" ? d.title_en || d.title_ja : d.title_ja;
+      return (
+        '<li class="reveal"><a href="' +
+        esc(d.file) +
+        '" target="_blank" rel="noopener">' +
+        '<span class="docs-no ' + cls + '">' + esc(d.no) + "</span>" +
+        "<span>" + esc(title) +
+        (d.date ? '<span class="docs-date">' + esc(d.date) + "</span>" : "") +
+        "</span>" +
+        '<span class="docs-type">PDF</span></a></li>'
+      );
+    })
+    .join("");
+  list.querySelectorAll(".reveal").forEach(observeReveal);
+}
+
+async function loadJson(url) {
+  try {
+    const res = await fetch(url, { cache: "no-cache" });
+    if (!res.ok) throw new Error(res.status);
+    return await res.json();
+  } catch (e) {
+    console.warn("読み込みに失敗しました:", url, e);
+    return null;
+  }
+}
+
+(async function initDynamicContent() {
+  const [news, docs] = await Promise.all([
+    loadJson("data/news.json"),
+    loadJson("data/documents.json"),
+  ]);
+  if (Array.isArray(news)) newsData = news;
+  if (Array.isArray(docs)) docsData = docs;
+  renderNews();
+  renderDocs();
+})();
