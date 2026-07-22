@@ -31,7 +31,7 @@ const I18N_EN = {
   "nav.news": "News",
   "nav.contact": "Contact",
 
-  "hero.eyebrow": "Shima, Mie Prefecture — from the ports of Shijima, Anori and Ugata",
+  "hero.eyebrow": "Shima, Mie Prefecture — from the ports of Anori, Nakiri and Wagu",
   "hero.title": "Iseshima Seafood<br>Export Council",
   "hero.lead": "Fishermen, wholesalers, freezing &amp; processing, seaweed, and export trade.<br>Five partners of the Ise-Shima sea working as one,<br>bringing the pride of the day's catch to tables across the sea.",
   "hero.cta1": "See the route from Shima to Hanoi",
@@ -40,12 +40,12 @@ const I18N_EN = {
   "hero.tategaki": "From Japan's sacred larder, to the world.",
 
   "ports.caption": "Our home waters",
-  "ports.p1": "Shijima",
-  "ports.p1n": "Home port of fishing vessel Dai-ichi Kazumaru",
-  "ports.p2": "Anori",
-  "ports.p2n": "Wholesale and processing under one roof",
-  "ports.p3": "Ugata",
-  "ports.p3n": "Two certified plants: freezing and seaweed",
+  "ports.p1": "Anori",
+  "ports.p1n": "Port of Anori fugu — wholesale and processing under one roof",
+  "ports.p2": "Nakiri",
+  "ports.p2n": "Beneath the Daio Lighthouse — a town that lives with bonito",
+  "ports.p3": "Wagu",
+  "ports.p3n": "Home of the ama divers — Ise-ebi and abalone waters",
 
   "about.title": "Five crafts,<br class=\"sp-only\">bound by one sea.",
   "about.lead": "The Iseshima Seafood Export Council was founded by five partners of Shima: <strong>fishermen, a wholesaler, a freezing &amp; processing plant, a seaweed house, and an export trading company</strong>. Each of us brings a craft and a pride honed on our own sea, and together we carry the entire chain — catching, selecting, processing and delivering — as one. Two internationally certified plants (HACCP, SQF, JFS-B) and our own retail channels in Southeast Asia: we export the blessings of the Ise-Shima sea together with their freshness and trust.",
@@ -131,7 +131,7 @@ const I18N_EN = {
   "news.loading": "Loading…",
 
   "area.title": "The Shima Peninsula & Our Ports",
-  "area.lead": "Cradled by Ise-Shima National Park, the Shima Peninsula is where sheltered ria inlets meet the Kuroshio Current. Our seafood comes from three ports facing the open sea, and from Matoya Bay.",
+  "area.lead": "Cradled by Ise-Shima National Park, the Shima Peninsula is where sheltered ria inlets meet the Kuroshio Current. Our seafood comes from three ports open to the Pacific — Anori, Nakiri and Wagu — and from Matoya Bay.",
   "area.note": "Select a pin to see each location.",
 
   "contact.title": "Trade, visits and media inquiries",
@@ -499,20 +499,20 @@ const AREA_SPOTS = [
   {
     lat: 34.3585, lng: 136.9010,
     name_ja: "安乗漁港", name_en: "Anori Port",
-    desc_ja: "心勢水産（仲買）と伊勢志摩冷凍（HACCP／SQF認証工場）が同じ敷地に。水揚げから凍結までを一か所で完結できる、本会の中核拠点。「あのりふぐ」の港としても知られます。",
-    desc_en: "Home of Shinsei Suisan (wholesale) and Iseshima Reito (HACCP/SQF-certified plant) on one site — from landing to freezing in a single location. Also famous for Anori fugu.",
+    desc_ja: "的矢湾の入口、安乗埼灯台のふもとに開けた港。ブランドとらふぐ「あのりふぐ」で知られ、外海の速い潮が身の締まった魚を育てます。心勢水産（仲買）と伊勢志摩冷凍（HACCP／SQF認証工場）が同じ敷地にあり、水揚げから凍結までを一か所で完結できる本会の中核拠点です。",
+    desc_en: "At the mouth of Matoya Bay, beneath the Anori Lighthouse. Famed for Anori fugu, a branded tiger pufferfish raised firm by fast open-sea currents. Home to Shinsei Suisan (wholesale) and Iseshima Reito (HACCP/SQF-certified plant) on one site — our core base, from landing to freezing.",
   },
   {
-    lat: 34.3199, lng: 136.8766,
-    name_ja: "志島漁港", name_en: "Shijima Port",
-    desc_ja: "漁船「第1和丸」の母港。黒潮を望む外海で、一本釣り・はえ縄漁が受け継がれてきた集落です。",
-    desc_en: "Home port of F/V Dai-ichi Kazumaru. A village of pole-and-line and longline fishing facing the open Pacific and the Kuroshio Current.",
+    lat: 34.2780, lng: 136.8960,
+    name_ja: "波切漁港", name_en: "Nakiri Port",
+    desc_ja: "熊野灘と遠州灘がぶつかる海の難所・大王崎に抱かれた港町。古くから鰹漁とかつお節づくり（波切節）で栄え、石畳の坂道と大王埼灯台の風景は「絵かきの町」として画家たちに愛されてきました。荒々しい外洋が、伊勢えびをはじめ力強い魚を届けてくれます。",
+    desc_en: "A port town sheltered by Cape Daio, where the Kumano and Enshu seas collide. Nakiri has long lived with bonito fishing and katsuobushi making, and its stone lanes beneath the Daio Lighthouse have drawn painters for generations. Its rough open waters yield Ise-ebi lobster and powerfully flavored fish.",
   },
   {
-    lat: 34.3272, lng: 136.8253,
-    name_ja: "鵜方", name_en: "Ugata",
-    desc_ja: "志摩の中心地。カネウフーズ鵜方工場（JFS-B認証）で、創業150年の海藻加工が行われています。",
-    desc_en: "The heart of Shima. Kaneu Foods' Ugata plant (JFS-B certified) carries on 150 years of seaweed processing.",
+    lat: 34.2460, lng: 136.8150,
+    name_ja: "和具漁港", name_en: "Wagu Port",
+    desc_ja: "先志摩半島の中心に位置する、志摩でも指折りの漁師町。素潜りであわび・さざえを獲る海女漁の伝統が今も息づき、伊勢えびの刺網漁や沿岸漁業が盛んです。人の手と目で一つずつ獲る漁が、この海の資源を守り続けてきました。",
+    desc_en: "The heart of the Sakishima Peninsula and one of Shima's great fishing towns. The ama free-diving tradition — harvesting abalone and turban shells by breath alone — lives on here, alongside gill-net fishing for Ise-ebi lobster. Catching one by one, by hand and eye, is how this sea has been kept abundant.",
   },
   {
     lat: 34.3930, lng: 136.8680,
@@ -543,7 +543,7 @@ function refreshAreaMarkers() {
   const el = document.getElementById("areaMap");
   if (!el || typeof L === "undefined") return;
   const map = L.map(el, { scrollWheelZoom: false, zoomControl: true });
-  map.setView([34.352, 136.862], 12);
+  map.setView([34.32, 136.86], 11);
   L.tileLayer("https://{s}.basemap.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
     maxZoom: 18,
@@ -559,5 +559,7 @@ function refreshAreaMarkers() {
     m._spot = s;
     areaMarkers.push(m);
   });
+  // 全ピンが収まるように表示範囲を自動調整
+  map.fitBounds(L.latLngBounds(AREA_SPOTS.map((s) => [s.lat, s.lng])), { padding: [46, 46], maxZoom: 12 });
   refreshAreaMarkers();
 })();
