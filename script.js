@@ -47,8 +47,8 @@ const I18N_EN = {
   "ports.p3": "Ugata",
   "ports.p3n": "Two certified plants: freezing and seaweed",
 
-  "about.title": "Five partners, no rivalry —<br class=\"sp-only\">bound by one sea.",
-  "about.lead": "The Iseshima Seafood Export Council was founded by five partners of Shima: <strong>fishermen, a wholesaler, a freezing &amp; processing plant, a seaweed house, and an export trading company</strong>. Because none of us competes on the same product, we cover the entire chain — catching, selecting, processing and delivering — as one. Two internationally certified plants (HACCP, SQF, JFS-B) and our own retail channels in Southeast Asia: we export the blessings of the Ise-Shima sea together with their freshness and trust.",
+  "about.title": "Five crafts,<br class=\"sp-only\">bound by one sea.",
+  "about.lead": "The Iseshima Seafood Export Council was founded by five partners of Shima: <strong>fishermen, a wholesaler, a freezing &amp; processing plant, a seaweed house, and an export trading company</strong>. Each of us brings a craft and a pride honed on our own sea, and together we carry the entire chain — catching, selecting, processing and delivering — as one. Two internationally certified plants (HACCP, SQF, JFS-B) and our own retail channels in Southeast Asia: we export the blessings of the Ise-Shima sea together with their freshness and trust.",
   "about.f1t": "Founded",
   "about.f1d": "July 2026",
   "about.f2t": "Head office",
