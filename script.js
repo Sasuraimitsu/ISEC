@@ -8,6 +8,7 @@ const CONTACT_EMAIL = "generalaffairs.isec@gmail.com"; // ← 変更してくだ
 // 動的コンテンツ用データ（お知らせ・事業計画/報告）：初期化前参照を避けるため冒頭で宣言
 let newsData = [];
 let docsData = [];
+let areaMarkers = []; // 志摩半島マップのピン
 
 /* =========================================================
    多言語辞書
@@ -129,6 +130,10 @@ const I18N_EN = {
   "docs.d3": "Accounting Rules",
   "news.loading": "Loading…",
 
+  "area.title": "The Shima Peninsula & Our Ports",
+  "area.lead": "Cradled by Ise-Shima National Park, the Shima Peninsula is where sheltered ria inlets meet the Kuroshio Current. Our seafood comes from three ports facing the open sea, and from Matoya Bay.",
+  "area.note": "Select a pin to see each location.",
+
   "contact.title": "Trade, visits and media inquiries",
   "contact.lead": "Overseas buyers, restaurants and retailers, press and government — we would love to hear from you.",
   "form.name": "Your name",
@@ -202,6 +207,7 @@ function applyLang(lang) {
   // 動的生成部（お知らせ・事業計画/報告）を再描画
   if (typeof renderNews === "function") renderNews();
   if (typeof renderDocs === "function") renderDocs();
+  if (typeof refreshAreaMarkers === "function") refreshAreaMarkers();
 }
 
 // 初期言語：保存値 → ブラウザ言語 → 日本語
@@ -482,4 +488,76 @@ async function loadJson(url) {
   if (Array.isArray(docs)) docsData = docs;
   renderNews();
   renderDocs();
+})();
+
+/* =========================================================
+   志摩半島マップ（Leaflet）
+   ---------------------------------------------------------
+   拠点を追加・修正するときは AREA_SPOTS を編集するだけです。
+   ========================================================= */
+const AREA_SPOTS = [
+  {
+    lat: 34.3585, lng: 136.9010,
+    name_ja: "安乗漁港", name_en: "Anori Port",
+    desc_ja: "心勢水産（仲買）と伊勢志摩冷凍（HACCP／SQF認証工場）が同じ敷地に。水揚げから凍結までを一か所で完結できる、本会の中核拠点。「あのりふぐ」の港としても知られます。",
+    desc_en: "Home of Shinsei Suisan (wholesale) and Iseshima Reito (HACCP/SQF-certified plant) on one site — from landing to freezing in a single location. Also famous for Anori fugu.",
+  },
+  {
+    lat: 34.3199, lng: 136.8766,
+    name_ja: "志島漁港", name_en: "Shijima Port",
+    desc_ja: "漁船「第1和丸」の母港。黒潮を望む外海で、一本釣り・はえ縄漁が受け継がれてきた集落です。",
+    desc_en: "Home port of F/V Dai-ichi Kazumaru. A village of pole-and-line and longline fishing facing the open Pacific and the Kuroshio Current.",
+  },
+  {
+    lat: 34.3272, lng: 136.8253,
+    name_ja: "鵜方", name_en: "Ugata",
+    desc_ja: "志摩の中心地。カネウフーズ鵜方工場（JFS-B認証）で、創業150年の海藻加工が行われています。",
+    desc_en: "The heart of Shima. Kaneu Foods' Ugata plant (JFS-B certified) carries on 150 years of seaweed processing.",
+  },
+  {
+    lat: 34.3930, lng: 136.8680,
+    name_ja: "的矢湾", name_en: "Matoya Bay",
+    desc_ja: "リアス海岸の静かな内湾。牡蠣養殖の産地として知られ、志摩の牡蠣漁業者との連携を広げています。",
+    desc_en: "A calm ria-coast inlet renowned for oyster farming — where we are expanding partnerships with Shima's oyster growers.",
+  },
+];
+
+function areaPopupHtml(s) {
+  const name = currentLang === "en" ? s.name_en : s.name_ja;
+  const desc = currentLang === "en" ? s.desc_en : s.desc_ja;
+  return '<p class="area-pop-name">' + name + '</p><p class="area-pop-desc">' + desc + "</p>";
+}
+
+function refreshAreaMarkers() {
+  areaMarkers.forEach((m) => {
+    m.setPopupContent(areaPopupHtml(m._spot));
+    const el = m.getElement();
+    if (el) {
+      const lbl = el.querySelector(".area-label");
+      if (lbl) lbl.textContent = currentLang === "en" ? m._spot.name_en : m._spot.name_ja;
+    }
+  });
+}
+
+(function initAreaMap() {
+  const el = document.getElementById("areaMap");
+  if (!el || typeof L === "undefined") return;
+  const map = L.map(el, { scrollWheelZoom: false, zoomControl: true });
+  map.setView([34.352, 136.862], 12);
+  L.tileLayer("https://{s}.basemap.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+    maxZoom: 18,
+  }).addTo(map);
+  AREA_SPOTS.forEach((s) => {
+    const icon = L.divIcon({
+      className: "area-marker",
+      html: '<span class="area-dot"></span><span class="area-label">' + s.name_ja + "</span>",
+      iconSize: [14, 14],
+      iconAnchor: [7, 7],
+    });
+    const m = L.marker([s.lat, s.lng], { icon }).addTo(map).bindPopup(areaPopupHtml(s));
+    m._spot = s;
+    areaMarkers.push(m);
+  });
+  refreshAreaMarkers();
 })();

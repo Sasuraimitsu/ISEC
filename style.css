@@ -593,3 +593,38 @@ html[lang="en"] .hero-tategaki {
   .lang-switch { margin-left: auto; margin-right: 4px; }
   .nav-toggle { margin-left: 0; }
 }
+
+/* =========================================================
+   志摩半島マップ
+   ========================================================= */
+.area { background: #fff; }
+.area-map-wrap {
+  border-radius: 10px; overflow: hidden;
+  border: 1px solid rgba(20,60,80,.14);
+  box-shadow: 0 10px 34px rgba(10,40,60,.10);
+}
+#areaMap { height: 460px; width: 100%; background: #dfe9ec; }
+@media (max-width: 720px) { #areaMap { height: 340px; } }
+.area-note { margin-top: 12px; font-size: 12.5px; color: var(--ink-weak); }
+
+/* ピン（金色ドット＋紺ラベル） */
+.area-marker { background: none; border: none; }
+.area-dot {
+  display: block; width: 14px; height: 14px; border-radius: 50%;
+  background: #c99236; border: 2.5px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.35);
+}
+.area-label {
+  position: absolute; left: 19px; top: -4px; white-space: nowrap;
+  font-size: 12px; font-weight: 700; letter-spacing: .06em;
+  color: #fff; background: rgba(21,55,75,.92);
+  padding: 3px 9px; border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+/* 吹き出し */
+.leaflet-popup-content-wrapper {
+  border-radius: 8px; box-shadow: 0 8px 26px rgba(10,40,60,.25);
+}
+.leaflet-popup-content { margin: 14px 16px; font-family: inherit; }
+.area-pop-name { font-weight: 700; color: #15374b; margin: 0 0 4px; font-size: 14px; letter-spacing: .04em; }
+.area-pop-desc { margin: 0; font-size: 12.5px; line-height: 1.75; color: #3c4c55; }
