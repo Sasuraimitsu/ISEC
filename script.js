@@ -497,25 +497,25 @@ async function loadJson(url) {
    ========================================================= */
 const AREA_SPOTS = [
   {
-    lat: 34.3585, lng: 136.9010,
+    lat: 34.36354, lng: 136.89618,
     name_ja: "安乗漁港", name_en: "Anori Port",
     desc_ja: "的矢湾の入口、安乗埼灯台のふもとに開けた港。ブランドとらふぐ「あのりふぐ」で知られ、外海の速い潮が身の締まった魚を育てます。心勢水産（仲買）と伊勢志摩冷凍（HACCP／SQF認証工場）が同じ敷地にあり、水揚げから凍結までを一か所で完結できる本会の中核拠点です。",
     desc_en: "At the mouth of Matoya Bay, beneath the Anori Lighthouse. Famed for Anori fugu, a branded tiger pufferfish raised firm by fast open-sea currents. Home to Shinsei Suisan (wholesale) and Iseshima Reito (HACCP/SQF-certified plant) on one site — our core base, from landing to freezing.",
   },
   {
-    lat: 34.2780, lng: 136.8960,
+    lat: 34.27788, lng: 136.89814,
     name_ja: "波切漁港", name_en: "Nakiri Port",
     desc_ja: "熊野灘と遠州灘がぶつかる海の難所・大王崎に抱かれた港町。古くから鰹漁とかつお節づくり（波切節）で栄え、石畳の坂道と大王埼灯台の風景は「絵かきの町」として画家たちに愛されてきました。荒々しい外洋が、伊勢えびをはじめ力強い魚を届けてくれます。",
     desc_en: "A port town sheltered by Cape Daio, where the Kumano and Enshu seas collide. Nakiri has long lived with bonito fishing and katsuobushi making, and its stone lanes beneath the Daio Lighthouse have drawn painters for generations. Its rough open waters yield Ise-ebi lobster and powerfully flavored fish.",
   },
   {
-    lat: 34.2460, lng: 136.8150,
+    lat: 34.25444, lng: 136.80391,
     name_ja: "和具漁港", name_en: "Wagu Port",
     desc_ja: "先志摩半島の中心に位置する、志摩でも指折りの漁師町。素潜りであわび・さざえを獲る海女漁の伝統が今も息づき、伊勢えびの刺網漁や沿岸漁業が盛んです。人の手と目で一つずつ獲る漁が、この海の資源を守り続けてきました。",
     desc_en: "The heart of the Sakishima Peninsula and one of Shima's great fishing towns. The ama free-diving tradition — harvesting abalone and turban shells by breath alone — lives on here, alongside gill-net fishing for Ise-ebi lobster. Catching one by one, by hand and eye, is how this sea has been kept abundant.",
   },
   {
-    lat: 34.3930, lng: 136.8680,
+    lat: 34.37239, lng: 136.88667,
     name_ja: "的矢湾", name_en: "Matoya Bay",
     desc_ja: "リアス海岸の静かな内湾。牡蠣養殖の産地として知られ、志摩の牡蠣漁業者との連携を広げています。",
     desc_en: "A calm ria-coast inlet renowned for oyster farming — where we are expanding partnerships with Shima's oyster growers.",
