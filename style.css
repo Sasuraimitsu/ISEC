@@ -134,8 +134,18 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
      background-image: linear-gradient(rgba(18,38,58,.55), rgba(18,38,58,.75)), url("images/hero.jpg");
      background-size: cover; background-position: center; を追加 */
   background:
+    url("images/shima_coast.png") right -60px center / min(72%, 980px) no-repeat,
     radial-gradient(120% 90% at 85% 10%, rgba(143,182,196,.22), transparent 55%),
     linear-gradient(168deg, #0D1D2E 0%, var(--sea-deep) 34%, #17425C 68%, var(--sea-main) 100%);
+}
+/* 志摩半島の海岸線（freemap.jp白地図を加工）。スマホでは文字可読性を優先して控えめに */
+@media (max-width: 720px) {
+  .hero {
+    background:
+      url("images/shima_coast.png") center 78% / 150% no-repeat,
+      radial-gradient(120% 90% at 85% 10%, rgba(143,182,196,.22), transparent 55%),
+      linear-gradient(168deg, #0D1D2E 0%, var(--sea-deep) 34%, #17425C 68%, var(--sea-main) 100%);
+  }
 }
 
 /* 海面のゆらぐ光（装飾） */
