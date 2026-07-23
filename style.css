@@ -285,6 +285,15 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
   border-radius: var(--radius);
   padding: 30px 24px 26px;
   transition: transform .25s ease, box-shadow .25s ease;
+  overflow: hidden;
+}
+/* カード写真（images/products/ に画像を置くと表示される。無い間は自動非表示） */
+.product-photo {
+  margin: -30px -24px 20px; /* カードの上辺いっぱいに広げる */
+}
+.product-photo img {
+  display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover;
+  filter: saturate(.94);
 }
 .product-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
 .product-icon {
@@ -638,3 +647,21 @@ html[lang="en"] .hero-tategaki {
 .leaflet-popup-content { margin: 14px 16px; font-family: inherit; }
 .area-pop-name { font-weight: 700; color: #15374b; margin: 0 0 4px; font-size: 14px; letter-spacing: .04em; }
 .area-pop-desc { margin: 0; font-size: 12.5px; line-height: 1.75; color: #3c4c55; }
+
+/* 志摩からハノイへ：YouTube埋め込み（IDを設定すると表示） */
+.route-video { margin-top: 44px; }
+.route-video.multi {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 22px;
+  max-width: 1000px; margin-left: auto; margin-right: auto;
+}
+.route-video.multi .video-frame { max-width: none; }
+@media (max-width: 720px) { .route-video.multi { grid-template-columns: 1fr; } }
+.route-video .video-frame {
+  position: relative; width: 100%; max-width: 860px; margin: 0 auto;
+  aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden;
+  box-shadow: 0 12px 38px rgba(10,40,60,.16);
+  border: 1px solid rgba(20,60,80,.12);
+}
+.route-video iframe {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: 0;
+}

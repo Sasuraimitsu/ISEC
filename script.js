@@ -11,6 +11,20 @@ let docsData = [];
 let areaMarkers = []; // 志摩半島マップのピン
 
 /* =========================================================
+   YouTube動画の埋め込み設定
+   ---------------------------------------------------------
+   動画を追加するときは、URL末尾の動画ID
+   （例 https://youtu.be/AbCdEf12345 → AbCdEf12345）を
+   下の配列に追加するだけです。1本なら1列、2本以上は
+   2列で「志摩からハノイへ」の下に表示されます。
+   空の配列 [] にすると何も表示されません。
+   ========================================================= */
+const YOUTUBE_VIDEO_IDS = [
+  "dSBWdKu2KIo",
+  "8258t9bHzDg",
+];
+
+/* =========================================================
    多言語辞書
    ・HTML側の data-i18n（テキスト）/ data-i18n-html（<br>等を含む）
      / data-i18n-ph（placeholder）/ data-i18n-content（meta）に対応。
@@ -576,4 +590,17 @@ function refreshAreaMarkers() {
   // 全ピンが収まるように表示範囲を自動調整
   map.fitBounds(L.latLngBounds(AREA_SPOTS.map((s) => [s.lat, s.lng])), { padding: [46, 46], maxZoom: 12 });
   refreshAreaMarkers();
+})();
+
+
+/* YouTube埋め込みの描画 */
+(function initRouteVideo() {
+  const box = document.getElementById("routeVideo");
+  if (!box || !Array.isArray(YOUTUBE_VIDEO_IDS) || YOUTUBE_VIDEO_IDS.length === 0) return;
+  box.hidden = false;
+  box.classList.toggle("multi", YOUTUBE_VIDEO_IDS.length > 1);
+  box.innerHTML = YOUTUBE_VIDEO_IDS.map((id) =>
+    '<div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/' + id +
+    '?rel=0" title="協議会の動画" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>'
+  ).join("");
 })();
