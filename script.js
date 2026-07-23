@@ -544,10 +544,24 @@ function refreshAreaMarkers() {
   if (!el || typeof L === "undefined") return;
   const map = L.map(el, { scrollWheelZoom: false, zoomControl: true });
   map.setView([34.32, 136.86], 11);
-  L.tileLayer("https://{s}.basemap.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>',
+  // ベース地図：国土地理院 淡色地図（読み込み失敗時はOpenStreetMapへ自動切替）
+  const gsiLayer = L.tileLayer("https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png", {
+    attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html">国土地理院</a>',
     maxZoom: 18,
-  }).addTo(map);
+  });
+  let tileFails = 0;
+  gsiLayer.on("tileerror", () => {
+    tileFails++;
+    if (tileFails >= 3 && !map._fallbackApplied) {
+      map._fallbackApplied = true;
+      map.removeLayer(gsiLayer);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 18,
+      }).addTo(map);
+    }
+  });
+  gsiLayer.addTo(map);
   AREA_SPOTS.forEach((s) => {
     const icon = L.divIcon({
       className: "area-marker",
