@@ -25,6 +25,26 @@ const YOUTUBE_VIDEO_IDS = [
 ];
 
 /* =========================================================
+   メンバーカードのリンク設定
+   ---------------------------------------------------------
+   各メンバーのSNSやホームページを載せるときは、下の配列に
+   { label: "表示名", url: "https://..." } を追加するだけです。
+   個人アカウントの場合はラベルに（個人）を付けてください。
+   例：
+   inoue: [
+     { label: "船上からの発信（Instagram・個人）", url: "https://www.instagram.com/xxxx" },
+   ],
+   ========================================================= */
+const MEMBER_LINKS = {
+  katayama: [],
+  inoue: [],
+  ishikawa: [],
+  hirooka: [],
+  metis: [],
+  katano: [],
+};
+
+/* =========================================================
    多言語辞書
    ・HTML側の data-i18n（テキスト）/ data-i18n-html（<br>等を含む）
      / data-i18n-ph（placeholder）/ data-i18n-content（meta）に対応。
@@ -75,22 +95,22 @@ const I18N_EN = {
   "products.title": "Four blessings raised by the Shima sea.",
   "products.lead": "From filleting to prepared foods — small lots, wide variety, tailored to each restaurant's plate.",
   "products.c1t": "Fresh Fish",
-  "products.c1d": "Seasonal fish caught by Shima's pole-and-line and longline fishermen. Selected on the day, by the eyes that know this sea best.",
-  "products.c1tag": "F/V Dai-ichi Kazumaru and partner fishermen",
+  "products.c1d": "Seasonal fish caught by pole-and-line, set-net and gill-net. Selected on the day, by the eyes that know this sea best.",
+  "products.c1tag": "Captain of F/V Dai-ichi Kazumaru and partner fishermen",
   "products.c2t": "Frozen & Processed",
   "products.c2d": "From fillets to prepared foods at a HACCP / SQF certified plant. Freshness sealed in, in formats ready for your kitchen.",
-  "products.c2tag": "Iseshima Reito (Anori — on-site integrated processing)",
-  "products.c3t": "Seaweed (Hijiki & Wakame)",
+  "products.c2tag": "Shinsei Suisan & Iseshima Reito (on-site integrated processing)",
+  "products.c3t": "Seaweed (Hijiki, Wakame & Aosa)",
   "products.c3d": "Selection and sterilization refined over 150 years. From a JFS-B certified plant, the aroma of Ise-Shima's shores to the world.",
   "products.c3tag": "Kaneu Foods (Shijima / Ugata plant)",
   "products.c4t": "Oysters",
   "products.c4d": "Raised in the calm inlets of Ise-Shima, exemplified by Matoya Bay. Delivering the wisdom of aquaculture to the next market.",
   "products.c4tag": "In partnership with Shima's oyster farmers (expanding)",
 
-  "route.title": "Morning at a Shima port. Tomorrow, a table in Hanoi.",
+  "route.title": "Morning at a Shima port. Two days later, a table in Hanoi.",
   "route.lead": "Collection, processing and freezing are completed on a single site; from our base minutes from Haneda Airport, Hanoi is about six hours by direct flight. A relay of freshness is the blueprint of this route.",
   "route.s1t": "Landing",
-  "route.s1d": "The day's catch from the ports of Shijima and Anori.",
+  "route.s1d": "The day's catch from the ports of Anori, Nakiri and Wagu.",
   "route.s2t": "Processing & Freezing",
   "route.s2d": "Same-day processing at a HACCP / SQF certified plant, right by the port.",
   "route.s3t": "Airfreight from Haneda",
@@ -112,19 +132,29 @@ const I18N_EN = {
   "members.m1r": "Chair / Wholesale",
   "members.m1n": "Shinsei Suisan Co., Ltd.",
   "members.m1d": "The discerning eye and trade network of Ise-Shima (Anori, Shima)",
-  "members.m2r": "Vice-chair / Freezing & Processing",
+  "members.m2r": "Director / Freezing & Processing",
   "members.m2n": "Iseshima Reito Co., Ltd.",
-  "members.m2d": "HACCP / SQF certified plant; exports to Hong Kong and Taiwan",
+  "members.m2d": "HACCP / SQF certified plant; exports to Hong Kong, Thailand and Singapore",
   "members.m3r": "Vice-chair / Fisherman",
-  "members.m3n": "Kazu Inoue (F/V Dai-ichi Kazumaru)",
+  "members.m3n": "Captain, F/V Dai-ichi Kazumaru",
   "members.m3d": "The Shijima sea and its network of fishermen",
-  "members.m4r": "Vice-chair / Seaweed",
+  "members.m4r": "Director / Seaweed",
   "members.m4n": "Kaneu Foods Co., Ltd.",
   "members.m4d": "Founded 150 years ago; JFS-B certified plant (Shijima / Ugata)",
   "members.m5r": "Secretariat / Export",
   "members.m5n": "METIS Co., Ltd.",
   "members.m5d": "Exports to Vietnam & Cambodia; export base minutes from Haneda",
   "members.adv": "Adviser: Ayumu Katano (FISK JAPAN) / In cooperation with Mie Prefecture, Shima City and JETRO Mie",
+  "members.m1p": "Katsuhito Katayama",
+  "members.m2p": "Takamasa Ishikawa",
+  "members.m3p": "Kazu Inoue",
+  "members.m4p": "Tatsukazu Hirooka",
+  "members.m5p": "Yoshihisa Mitsunobu",
+  "members.m6p": "Ayumu Katano",
+  "members.m6r": "Adviser",
+  "members.m6n": "FISK JAPAN",
+  "members.m6d": "Expert guidance on seafood export and global fisheries",
+  "members.support": "Working in cooperation with Mie Prefecture, Shima City and JETRO Mie.",
 
   "news.title": "News",
   "news.tag1": "Notice",
@@ -603,4 +633,15 @@ function refreshAreaMarkers() {
     '<div class="video-frame"><iframe src="https://www.youtube-nocookie.com/embed/' + id +
     '?rel=0" title="協議会の動画" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>'
   ).join("");
+})();
+
+
+/* メンバーカードのリンク描画 */
+(function initMemberLinks() {
+  document.querySelectorAll(".member-links[data-links]").forEach((box) => {
+    const items = (typeof MEMBER_LINKS === "object" && MEMBER_LINKS[box.dataset.links]) || [];
+    box.innerHTML = items.map((l) =>
+      '<a href="' + l.url + '" target="_blank" rel="noopener noreferrer">' + l.label + "</a>"
+    ).join("");
+  });
 })();
