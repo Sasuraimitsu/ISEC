@@ -291,9 +291,9 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
 .product-photo {
   margin: -30px -24px 20px; /* カードの上辺いっぱいに広げる */
 }
-/* 見出し行：アイコンをタイトルの横に小さく表示 */
-.product-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.product-head .product-icon { width: 30px; height: 30px; margin: 0; flex-shrink: 0; }
+/* 見出し行：アイコンをタイトルの横に小さく表示（複数行でも1行目に揃える） */
+.product-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.product-head .product-icon { width: 30px; height: 30px; margin: -1px 0 0; flex-shrink: 0; }
 .product-head h3 { margin-bottom: 0; }
 .product-photo img {
   display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover;
