@@ -291,6 +291,8 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
 .product-photo {
   margin: -30px -24px 20px; /* カードの上辺いっぱいに広げる */
 }
+/* 写真があるカードではアイコンを非表示（写真が無ければ従来どおりアイコン表示） */
+.product-card:has(.product-photo) .product-icon { display: none; }
 .product-photo img {
   display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover;
   filter: saturate(.94);
