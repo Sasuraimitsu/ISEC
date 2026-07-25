@@ -36,8 +36,8 @@ const YOUTUBE_VIDEO_IDS = [
    ],
    ========================================================= */
 const MEMBER_LINKS = {
-  katayama: [],
-  inoue: [],
+  katayama: [{ label: "安乗からの発信（Instagram・個人）", url: "https://www.instagram.com/marusei.8?igsh=dHBxbGdhZnp6bXp3&utm_source=qr" },],
+  inoue: [{ label: "志摩からの発信（Instagram・個人）", url: "https://www.instagram.com/kazumaru_sizima_?igsh=MWJ6dXVtdG02OWQ0dA%3D%3D&utm_source=qr" },],
   ishikawa: [],
   hirooka: [],
   metis: [],
