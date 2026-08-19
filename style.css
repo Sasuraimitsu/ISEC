@@ -711,3 +711,27 @@ html[lang="en"] .hero-tategaki {
 }
 .member-links a::after { content: " ↗"; font-size: 10px; }
 .member-links a:hover { background: var(--sea-main); color: #fff; }
+
+/* =========================================================
+   取り扱い海産物：カテゴリ切替タブ／カテゴリ表示
+   ========================================================= */
+.product-tabs {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-bottom: 26px;
+}
+.product-tab {
+  font-family: inherit; font-size: 13px; font-weight: 600; letter-spacing: .04em;
+  color: var(--sea-main); background: transparent; cursor: pointer;
+  border: 1px solid rgba(31,78,95,.32); border-radius: 999px;
+  padding: 8px 20px; transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.product-tab:hover { background: rgba(31,78,95,.07); }
+.product-tab.is-active {
+  background: var(--sea-deep); border-color: var(--sea-deep); color: #fff;
+}
+.product-cat {
+  display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .08em;
+  color: #a4762a; background: rgba(201,146,54,.1);
+  border: 1px solid rgba(201,146,54,.4); border-radius: 999px;
+  padding: 3px 11px; margin-bottom: 12px;
+}

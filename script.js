@@ -9,6 +9,8 @@ const CONTACT_EMAIL = "generalaffairs.isec@gmail.com"; // ← 変更してくだ
 let newsData = [];
 let docsData = [];
 let areaMarkers = []; // 志摩半島マップのピン
+let productData = null;   // 取り扱い海産物（data/products.json）
+let productFilter = "all"; // 現在選択中のカテゴリ
 
 /* =========================================================
    YouTube動画の埋め込み設定
@@ -42,6 +44,7 @@ const MEMBER_LINKS = {
   hirooka: [],
   metis: [],
   katano: [],
+  mukai: [],
 };
 
 /* =========================================================
@@ -154,6 +157,12 @@ const I18N_EN = {
   "members.m6r": "Adviser",
   "members.m6n": "FISK JAPAN",
   "members.m6d": "Expert guidance on seafood export and global fisheries",
+  "members.m7r": "Auditor",
+  "members.m7p": "Shingo Mukai",
+  "members.m7n": "Nanbu Kyuso Co., Ltd.",
+  "members.m7d": "A logistics specialist auditing the council independently of its members",
+  "products.loading": "Loading…",
+
   "members.support": "Working in cooperation with Mie Prefecture, Shima City and JETRO Mie.",
 
   "news.title": "News",
@@ -252,6 +261,8 @@ function applyLang(lang) {
   if (typeof renderNews === "function") renderNews();
   if (typeof renderDocs === "function") renderDocs();
   if (typeof refreshAreaMarkers === "function") refreshAreaMarkers();
+  if (typeof renderProductTabs === "function") renderProductTabs();
+  if (typeof renderProducts === "function") renderProducts();
 }
 
 // 初期言語：保存値 → ブラウザ言語 → 日本語
@@ -512,6 +523,75 @@ function renderDocs() {
   list.querySelectorAll(".reveal").forEach(observeReveal);
 }
 
+/* ---------------------------------------------------------
+   取り扱い海産物：カテゴリ別の描画
+   ---------------------------------------------------------
+   商品の追加・変更は data/products.json を編集するだけです。
+   （このファイルを触る必要はありません）
+--------------------------------------------------------- */
+const PRODUCT_ICONS = {
+  fish: '<svg viewBox="0 0 64 64"><path d="M8 32c10-12 26-14 38-6l10-8-3 12 3 12-10-8c-12 8-28 6-38-6z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><circle cx="18" cy="30" r="2.2" fill="currentColor"/></svg>',
+  snow: '<svg viewBox="0 0 64 64"><path d="M32 8v48M12 20l40 24M52 20L12 44M32 8l-6 8M32 8l6 8M32 56l-6-8M32 56l6-8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
+  pot: '<svg viewBox="0 0 64 64"><path d="M10 24h44v18a10 10 0 0 1-10 10H20a10 10 0 0 1-10-10V24z" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linejoin="round"/><path d="M6 30h4M54 30h4M24 16c0-4 4-4 4-8M36 16c0-4 4-4 4-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  wave: '<svg viewBox="0 0 64 64"><path d="M20 56c0-14-6-18-4-30M32 56c0-18-4-22 0-40M44 56c0-14 6-18 4-30" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>',
+};
+
+function renderProductTabs() {
+  const box = document.getElementById("productTabs");
+  if (!box || !productData) return;
+  const cats = productData.categories || [];
+  const all = currentLang === "en" ? "All" : "すべて";
+  const btns = [{ id: "all", label: all }].concat(
+    cats.map((c) => ({ id: c.id, label: currentLang === "en" ? c.name_en : c.name_ja }))
+  );
+  box.innerHTML = btns.map((b) =>
+    '<button type="button" class="product-tab' + (b.id === productFilter ? " is-active" : "") +
+    '" data-cat="' + b.id + '">' + esc(b.label) + "</button>"
+  ).join("");
+  box.querySelectorAll(".product-tab").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      productFilter = btn.dataset.cat;
+      renderProductTabs();
+      renderProducts();
+    });
+  });
+}
+
+function renderProducts() {
+  const grid = document.getElementById("productGrid");
+  if (!grid || !productData) return;
+  const cats = {};
+  (productData.categories || []).forEach((c) => { cats[c.id] = c; });
+  const items = (productData.items || []).filter(
+    (it) => productFilter === "all" || it.category === productFilter
+  );
+  if (!items.length) {
+    grid.innerHTML = '<p class="news-empty">' +
+      (currentLang === "en" ? "No items in this category." : "このカテゴリの商品はまだありません。") + "</p>";
+    return;
+  }
+  grid.innerHTML = items.map((it) => {
+    const cat = cats[it.category] || {};
+    const name = currentLang === "en" ? (it.name_en || it.name_ja) : it.name_ja;
+    const desc = currentLang === "en" ? (it.desc_en || it.desc_ja) : it.desc_ja;
+    const member = currentLang === "en" ? (it.member_en || it.member_ja) : it.member_ja;
+    const catName = currentLang === "en" ? (cat.name_en || "") : (cat.name_ja || "");
+    const icon = PRODUCT_ICONS[cat.icon] || PRODUCT_ICONS.fish;
+    return '<article class="product-card reveal">' +
+      (it.photo
+        ? '<figure class="product-photo"><img src="' + esc(it.photo) + '" alt="' + esc(name) +
+          '" loading="lazy" onerror="this.closest(\'.product-photo\').remove()"></figure>'
+        : "") +
+      (catName ? '<span class="product-cat">' + esc(catName) + "</span>" : "") +
+      '<div class="product-head"><div class="product-icon" aria-hidden="true">' + icon + "</div>" +
+      "<h3>" + esc(name) + "</h3></div>" +
+      "<p>" + esc(desc) + "</p>" +
+      (member ? '<span class="product-tag">' + esc(member) + "</span>" : "") +
+      "</article>";
+  }).join("");
+  grid.querySelectorAll(".reveal").forEach(observeReveal);
+}
+
 async function loadJson(url) {
   try {
     const res = await fetch(url, { cache: "no-cache" });
@@ -524,14 +604,18 @@ async function loadJson(url) {
 }
 
 (async function initDynamicContent() {
-  const [news, docs] = await Promise.all([
+  const [news, docs, products] = await Promise.all([
     loadJson("data/news.json"),
     loadJson("data/documents.json"),
+    loadJson("data/products.json"),
   ]);
   if (Array.isArray(news)) newsData = news;
   if (Array.isArray(docs)) docsData = docs;
+  if (products && Array.isArray(products.items)) productData = products;
   renderNews();
   renderDocs();
+  renderProductTabs();
+  renderProducts();
 })();
 
 /* =========================================================
