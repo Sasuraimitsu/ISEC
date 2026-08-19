@@ -760,3 +760,19 @@ html[lang="en"] .hero-tategaki {
   border: 1px solid rgba(201,146,54,.4); border-radius: 999px;
   padding: 3px 11px;
 }
+
+/* お知らせ：過去分の開閉ボタン */
+.news-more { margin-top: 26px; text-align: center; }
+.news-more:empty { display: none; }
+.news-more-btn {
+  font-family: inherit; font-size: 13px; font-weight: 600; letter-spacing: .06em;
+  color: var(--sea-main); background: #fff; cursor: pointer;
+  border: 1px solid rgba(31,78,95,.32); border-radius: 999px;
+  padding: 11px 30px;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.news-more-btn::after { content: " ↓"; font-size: 11px; }
+.news-more-btn.is-open::after { content: " ↑"; }
+.news-more-btn:hover {
+  background: var(--sea-deep); border-color: var(--sea-deep); color: #fff;
+}

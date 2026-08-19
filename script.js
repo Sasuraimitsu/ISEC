@@ -7,6 +7,8 @@ const CONTACT_EMAIL = "generalaffairs.isec@gmail.com"; // ← 変更してくだ
 
 // 動的コンテンツ用データ（お知らせ・事業計画/報告）：初期化前参照を避けるため冒頭で宣言
 let newsData = [];
+const NEWS_VISIBLE = 5;   // お知らせの初期表示件数（これを変えると表示数が変わります）
+let newsExpanded = false; // 過去のお知らせを開いているか
 let docsData = [];
 let areaMarkers = []; // 志摩半島マップのピン
 let productData = null;   // 取り扱い海産物（data/products.json）
@@ -469,7 +471,9 @@ function renderNews() {
       "</li>";
     return;
   }
-  list.innerHTML = newsData
+  const total = newsData.length;
+  const shown = newsExpanded ? newsData : newsData.slice(0, NEWS_VISIBLE);
+  list.innerHTML = shown
     .map((n) => {
       const tag = currentLang === "en" ? n.tag_en || n.tag_ja : n.tag_ja;
       const title = currentLang === "en" ? n.title_en || n.title_ja : n.title_ja;
@@ -496,6 +500,34 @@ function renderNews() {
     })
     .join("");
   list.querySelectorAll(".reveal").forEach(observeReveal);
+
+  // 6件目以降がある場合のみ、開閉ボタンを表示
+  const btnBox = document.getElementById("newsMore");
+  if (btnBox) {
+    if (total <= NEWS_VISIBLE) {
+      btnBox.innerHTML = "";
+    } else {
+      const rest = total - NEWS_VISIBLE;
+      const label = newsExpanded
+        ? (currentLang === "en" ? "Show less" : "閉じる")
+        : (currentLang === "en"
+            ? "View past news (" + rest + ")"
+            : "過去のお知らせを見る（" + rest + "件）");
+      btnBox.innerHTML =
+        '<button type="button" class="news-more-btn' + (newsExpanded ? " is-open" : "") +
+        '" id="newsMoreBtn">' + esc(label) + "</button>";
+      const btn = document.getElementById("newsMoreBtn");
+      btn.addEventListener("click", () => {
+        newsExpanded = !newsExpanded;
+        renderNews();
+        // 閉じたときは一覧の先頭が見えるように戻す
+        if (!newsExpanded) {
+          const sec = document.getElementById("news");
+          if (sec) sec.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    }
+  }
 }
 
 function renderDocs() {
