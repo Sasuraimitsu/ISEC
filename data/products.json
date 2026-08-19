@@ -1,5 +1,6 @@
 {
   "categories": [
+    { "id": "sengyo",  "name_ja": "生鮮",           "name_en": "Fresh",                "icon": "fish" },
     { "id": "ichiji",  "name_ja": "一次加工",       "name_en": "Primary Processing",   "icon": "fish" },
     { "id": "niji",    "name_ja": "二次加工",       "name_en": "Secondary Processing", "icon": "snow" },
     { "id": "sanji",   "name_ja": "三次加工（調理）", "name_en": "Prepared Foods",       "icon": "pot" },
@@ -7,20 +8,30 @@
   ],
   "items": [
     {
+      "category": ["sengyo"],
+      "name_ja": "鮮魚（丸魚）",
+      "name_en": "Whole Fresh Fish",
+      "desc_ja": "志摩の一本釣り・定置網・刺網漁で獲る旬の魚。安乗・波切・和具の海から、その日の一番を水揚げします。",
+      "desc_en": "Seasonal fish caught by pole-and-line, set-net and gill-net. From the waters of Anori, Nakiri and Wagu, the day's finest.",
+      "member_ja": "漁船「第1和丸」船長 井上 和ほか有志漁師",
+      "member_en": "Kazu Inoue, Captain of F/V Dai-ichi Kazumaru, and partner fishermen",
+      "photo": "images/products/gyokaku.jpg"
+    },
+    {
       "category": ["ichiji"],
-      "name_ja": "鮮魚・一次処理（活〆／氷〆・ドレス）",
-      "name_en": "Fresh Fish & Primary Processing",
-      "desc_ja": "志摩の一本釣り・定置網・刺網漁で獲る旬の魚を、漁師直結の目利きで選別。活〆・氷〆から下処理まで、鮮度を最優先に仕立てます。",
-      "desc_en": "Seasonal fish caught by pole-and-line, set-net and gill-net, selected by the eyes that know this sea best. From ike-jime and ice-chilling to primary dressing, freshness comes first.",
-      "member_ja": "心勢水産（仲買）／漁船「第1和丸」船長ほか有志漁師",
-      "member_en": "Shinsei Suisan (wholesale) / Captain of F/V Dai-ichi Kazumaru and partner fishermen",
-      "photo": "images/products/sengyo.jpg"
+      "name_ja": "目利き・一次処理（活〆／氷〆・下処理）",
+      "name_en": "Selection & Primary Processing",
+      "desc_ja": "水揚げされた魚を仲買の目利きで選別し、活〆・氷〆から下処理まで。鮮度を最優先に、次の工程へつなぎます。",
+      "desc_en": "Landed fish selected by a wholesaler's trained eye, then ike-jime, ice-chilling and dressing. Freshness first, on to the next stage.",
+      "member_ja": "心勢水産有限会社（安乗）",
+      "member_en": "Shinsei Suisan (Anori)",
+      "photo": "images/products/nakagai.jpg"
     },
     {
       "category": ["ichiji", "niji", "sanji"],
       "name_ja": "冷凍・フィレ加工／調理加工",
       "name_en": "Frozen, Filleted & Prepared",
-      "desc_ja": "HACCP・SQF認証工場で、フィレ・切身などの一次加工から、味付け・調理加工まで一貫対応。鮮度を封じたまま、使いやすい形でお届けします。",
+      "desc_ja": "HACCP・SQF認証工場で、フィレ・切身などの加工から、味付け・調理加工まで一貫対応。鮮度を封じたまま、使いやすい形でお届けします。",
       "desc_en": "At a HACCP / SQF certified plant, from fillets and portions to seasoned and prepared products. Freshness sealed in, in formats ready for your kitchen.",
       "member_ja": "有限会社伊勢志摩冷凍（安乗・敷地内一体加工）",
       "member_en": "Iseshima Reito (Anori — on-site integrated processing)",
