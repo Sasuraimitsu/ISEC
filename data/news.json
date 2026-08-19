@@ -1,13 +1,13 @@
 [
   {
     "date": "2026.08",
+    "datetime": "2026-08",
+    "tag_ja": "活動報告",
+    "tag_en": "Report",
     "title_ja": "志摩市長・三重県農林水産部に活動をご報告しました",
     "title_en": "Reported our activities to the Mayor of Shima and Mie Prefecture",
     "body_ja": "7月28日の初輸出と、カンボジア・コッコン州での漁船活用構想についてご説明し、今後の連携について意見交換を行いました。",
     "body_en": "We presented our first export on 28 July and our plan to put a retired Shima fishing vessel to work in Koh Kong Province, Cambodia.",
-    "datetime": "2026-08-19",
-    "tag_ja": "活動報告",
-    "tag_en": "Report"
     "photo": "images/news/meeting-20260819.jpg"
   },
   {
@@ -23,10 +23,10 @@
     "datetime": "2026-07",
     "tag_ja": "到着",
     "tag_en": "arrival",
-    "body_ja": "初めての安乗鯖と安乗鯵がカンボジア向けに出荷されました。",
-    "body_en": "Our first shipment of Anori mackerel and Anori horse mackerel has left for Cambodia.",
     "title_ja": "初出荷 ― 安乗鯖・安乗鯵",
     "title_en": "First shipment — Anori mackerel & horse mackerel",
+    "body_ja": "初めての安乗鯖と安乗鯵がカンボジア向けに出荷されました。",
+    "body_en": "Our first shipment of Anori mackerel and Anori horse mackerel has left for Cambodia.",
     "photo": "images/news/arrival-20260728.jpg"
   },
   {
@@ -34,6 +34,8 @@
     "datetime": "2026-07",
     "tag_ja": "漁船輸出",
     "tag_en": "Visseltrading",
+    "title_ja": "初輸出 ― 漁船",
+    "title_en": "First trading — Fishing vissel",
     "body_ja": "志摩の中古漁船輸出・第1船が出港しました（引退漁師の船の後継活用）。",
     "body_en": "First shipment of Shima's used fishing vessels has departed (giving retired fishermen's boats a second life)."
     "photo": "images/news/Visseltradeing-20260715.jpg"
@@ -43,6 +45,8 @@
     "datetime": "2026-07",
     "tag_ja": "お知らせ",
     "tag_en": "Notice",
+    "title_ja": "設立",
+    "title_en": "Establishment",
     "body_ja": "伊勢志摩水産物輸出促進協議会を設立しました。",
     "body_en": "The Iseshima Seafood Export Council has been established."
   }
