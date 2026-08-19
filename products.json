@@ -1,0 +1,50 @@
+{
+  "categories": [
+    { "id": "ichiji",  "name_ja": "一次加工",       "name_en": "Primary Processing",   "icon": "fish" },
+    { "id": "niji",    "name_ja": "二次加工",       "name_en": "Secondary Processing", "icon": "snow" },
+    { "id": "sanji",   "name_ja": "三次加工（調理）", "name_en": "Prepared Foods",       "icon": "pot" },
+    { "id": "yoshoku", "name_ja": "養殖",           "name_en": "Aquaculture",          "icon": "wave" }
+  ],
+  "items": [
+    {
+      "category": ["ichiji"],
+      "name_ja": "鮮魚・一次処理（活〆／氷〆・ドレス）",
+      "name_en": "Fresh Fish & Primary Processing",
+      "desc_ja": "志摩の一本釣り・定置網・刺網漁で獲る旬の魚を、漁師直結の目利きで選別。活〆・氷〆から下処理まで、鮮度を最優先に仕立てます。",
+      "desc_en": "Seasonal fish caught by pole-and-line, set-net and gill-net, selected by the eyes that know this sea best. From ike-jime and ice-chilling to primary dressing, freshness comes first.",
+      "member_ja": "心勢水産（仲買）／漁船「第1和丸」船長ほか有志漁師",
+      "member_en": "Shinsei Suisan (wholesale) / Captain of F/V Dai-ichi Kazumaru and partner fishermen",
+      "photo": "images/products/sengyo.jpg"
+    },
+    {
+      "category": ["ichiji", "niji", "sanji"],
+      "name_ja": "冷凍・フィレ加工／調理加工",
+      "name_en": "Frozen, Filleted & Prepared",
+      "desc_ja": "HACCP・SQF認証工場で、フィレ・切身などの一次加工から、味付け・調理加工まで一貫対応。鮮度を封じたまま、使いやすい形でお届けします。",
+      "desc_en": "At a HACCP / SQF certified plant, from fillets and portions to seasoned and prepared products. Freshness sealed in, in formats ready for your kitchen.",
+      "member_ja": "有限会社伊勢志摩冷凍（安乗・敷地内一体加工）",
+      "member_en": "Iseshima Reito (Anori — on-site integrated processing)",
+      "photo": "images/products/kako.jpg"
+    },
+    {
+      "category": ["niji", "sanji"],
+      "name_ja": "海藻（ひじき・わかめ・あおさ）",
+      "name_en": "Seaweed (Hijiki, Wakame & Aosa)",
+      "desc_ja": "創業150年の老舗が磨いた選別と殺菌加工に加え、味付け・惣菜などの調理加工まで。JFS-B認証工場から、伊勢志摩の磯の香りを世界へ。",
+      "desc_en": "Selection and sterilization refined over 150 years, extending to seasoned and prepared products. From a JFS-B certified plant, the aroma of Ise-Shima's shores to the world.",
+      "member_ja": "カネウフーズ株式会社（志島・鵜方工場）",
+      "member_en": "Kaneu Foods (Shijima / Ugata plant)",
+      "photo": "images/products/kaisou.jpg"
+    },
+    {
+      "category": ["yoshoku"],
+      "name_ja": "牡蠣",
+      "name_en": "Oysters",
+      "desc_ja": "的矢湾に代表される、伊勢志摩の静かな入り江が育てる牡蠣。養殖の知恵ごと、次の市場へ。",
+      "desc_en": "Raised in the calm inlets of Ise-Shima, exemplified by Matoya Bay. Delivering the wisdom of aquaculture to the next market.",
+      "member_ja": "志摩の養殖漁家と連携（拡充予定）",
+      "member_en": "In partnership with Shima's oyster farmers (expanding)",
+      "photo": "images/products/kaki.jpg"
+    }
+  ]
+}

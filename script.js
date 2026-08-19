@@ -562,8 +562,9 @@ function renderProducts() {
   if (!grid || !productData) return;
   const cats = {};
   (productData.categories || []).forEach((c) => { cats[c.id] = c; });
+  const catsOf = (it) => (Array.isArray(it.category) ? it.category : [it.category]).filter(Boolean);
   const items = (productData.items || []).filter(
-    (it) => productFilter === "all" || it.category === productFilter
+    (it) => productFilter === "all" || catsOf(it).indexOf(productFilter) !== -1
   );
   if (!items.length) {
     grid.innerHTML = '<p class="news-empty">' +
@@ -571,18 +572,21 @@ function renderProducts() {
     return;
   }
   grid.innerHTML = items.map((it) => {
-    const cat = cats[it.category] || {};
+    const myCats = catsOf(it).map((id) => cats[id]).filter(Boolean);
+    const first = myCats[0] || {};
     const name = currentLang === "en" ? (it.name_en || it.name_ja) : it.name_ja;
     const desc = currentLang === "en" ? (it.desc_en || it.desc_ja) : it.desc_ja;
     const member = currentLang === "en" ? (it.member_en || it.member_ja) : it.member_ja;
-    const catName = currentLang === "en" ? (cat.name_en || "") : (cat.name_ja || "");
-    const icon = PRODUCT_ICONS[cat.icon] || PRODUCT_ICONS.fish;
+    const badges = myCats
+      .map((c) => '<span class="product-cat">' + esc(currentLang === "en" ? c.name_en : c.name_ja) + "</span>")
+      .join("");
+    const icon = PRODUCT_ICONS[first.icon] || PRODUCT_ICONS.fish;
     return '<article class="product-card reveal">' +
       (it.photo
         ? '<figure class="product-photo"><img src="' + esc(it.photo) + '" alt="' + esc(name) +
           '" loading="lazy" onerror="this.closest(\'.product-photo\').remove()"></figure>'
         : "") +
-      (catName ? '<span class="product-cat">' + esc(catName) + "</span>" : "") +
+      (badges ? '<div class="product-cats">' + badges + "</div>" : "") +
       '<div class="product-head"><div class="product-icon" aria-hidden="true">' + icon + "</div>" +
       "<h3>" + esc(name) + "</h3></div>" +
       "<p>" + esc(desc) + "</p>" +
