@@ -397,6 +397,30 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
 }
 .news-list p { font-size: 14.5px; }
 
+/* お知らせ：写真サムネイル・見出し */
+.news-list li { align-items: flex-start; }
+.news-list time { padding-top: 2px; }
+.news-body { flex: 1 1 auto; min-width: 0; }
+.news-title {
+  font-family: var(--font-display); font-size: 16px; font-weight: 700;
+  color: var(--sea-deep); letter-spacing: .04em; margin: 0 0 6px;
+  line-height: 1.6;
+}
+.news-thumb {
+  flex: 0 0 auto; margin: 0; width: 132px;
+  border-radius: 6px; overflow: hidden;
+  border: 1px solid rgba(18,38,58,.1);
+}
+.news-thumb img {
+  display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover;
+}
+@media (max-width: 640px) {
+  .news-list li { flex-wrap: wrap; gap: 10px 14px; }
+  .news-thumb { width: 100px; }
+  .news-body { flex: 1 1 100%; }
+  .news-list li.has-thumb .news-body { flex: 1 1 100%; }
+}
+
 /* =========================================================
    規程・公開資料（PDF）
    ========================================================= */

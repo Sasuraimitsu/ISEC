@@ -472,17 +472,26 @@ function renderNews() {
   list.innerHTML = newsData
     .map((n) => {
       const tag = currentLang === "en" ? n.tag_en || n.tag_ja : n.tag_ja;
+      const title = currentLang === "en" ? n.title_en || n.title_ja : n.title_ja;
       const body = currentLang === "en" ? n.body_en || n.body_ja : n.body_ja;
+      // 写真（photo）が指定されていればサムネイルを表示。画像が無ければ自動で消える
+      const thumb = n.photo
+        ? '<figure class="news-thumb"><img src="' + esc(n.photo) + '" alt="' +
+          esc(title || body || "") + '" loading="lazy" ' +
+          "onerror=\"this.closest('.news-thumb').remove()\"></figure>"
+        : "";
       return (
-        '<li class="reveal"><time datetime="' +
+        '<li class="reveal' + (n.photo ? " has-thumb" : "") + '"><time datetime="' +
         esc(n.datetime || "") +
         '">' +
         esc(n.date || "") +
-        '</time><span class="news-tag">' +
-        esc(tag) +
-        '</span><p>' +
-        esc(body) +
-        "</p></li>"
+        '</time>' +
+        (tag ? '<span class="news-tag">' + esc(tag) + "</span>" : "") +
+        thumb +
+        '<div class="news-body">' +
+        (title ? '<h3 class="news-title">' + esc(title) + "</h3>" : "") +
+        (body ? "<p>" + esc(body) + "</p>" : "") +
+        "</div></li>"
       );
     })
     .join("");
