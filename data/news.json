@@ -1,13 +1,13 @@
 [
   {
-  "date": "2026.08",
-  "datetime": "2026-08",
-  "tag_ja": "面談",
-  "tag_en": "Meeting",
-  "title_ja": "志摩市長・三重県農林水産部に活動をご報告しました",
-  "title_en": "Reported our activities to the Mayor of Shima and Mie Prefecture",
-  "body_ja": "7月28日の初輸出と、カンボジア・コッコン州での漁船活用構想についてご説明し、今後の連携について意見交換を行いました。",
-  "body_en": "We presented our first export on 28 July and our plan to put a retired Shima fishing vessel to work in Koh Kong Province, Cambodia."
+    "date": "2026.08.19",
+    "title_ja": "志摩市長・三重県農林水産部に活動をご報告しました",
+    "title_en": "Reported our activities to the Mayor of Shima and Mie Prefecture",
+    "body_ja": "7月28日の初輸出と、カンボジア・コッコン州での漁船活用構想についてご説明し、今後の連携について意見交換を行いました。",
+    "body_en": "We presented our first export on 28 July and our plan to put a retired Shima fishing vessel to work in Koh Kong Province, Cambodia.",
+    "datetime": "2026-08-19",
+    "tag_ja": "活動報告",
+    "tag_en": "Report"
   },
   {
     "date": "2026.08",
@@ -23,7 +23,10 @@
     "tag_ja": "到着",
     "tag_en": "arrival",
     "body_ja": "初めての安乗鯖と安乗鯵がカンボジア向けに出荷されました。",
-    "body_en": "Our first shipment of Anori mackerel and Anori horse mackerel has left for Cambodia."
+    "body_en": "Our first shipment of Anori mackerel and Anori horse mackerel has left for Cambodia.",
+    "title_ja": "初出荷 ― 安乗鯖・安乗鯵",
+    "title_en": "First shipment — Anori mackerel & horse mackerel",
+    "photo": "images/news/2026-07_anori-saba.jpg"
   },
   {
     "date": "2026.07",
