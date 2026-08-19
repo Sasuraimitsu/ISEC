@@ -95,8 +95,8 @@ const I18N_EN = {
   "about.f4t": "First target market",
   "about.f4d": "Hanoi, Vietnam",
 
-  "products.title": "Four blessings raised by the Shima sea.",
-  "products.lead": "From filleting to prepared foods — small lots, wide variety, tailored to each restaurant's plate.",
+  "products.title": "Caught, selected, crafted.",
+  "products.lead": "From fresh whole fish through primary, secondary and prepared processing to aquaculture. Five partners, each with their own role, delivering in the form your kitchen needs.",
   "products.c1t": "Fresh Fish",
   "products.c1d": "Seasonal fish caught by pole-and-line, set-net and gill-net. Selected on the day, by the eyes that know this sea best.",
   "products.c1tag": "Captain of F/V Dai-ichi Kazumaru and partner fishermen",
