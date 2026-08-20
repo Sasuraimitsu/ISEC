@@ -39,6 +39,7 @@
         <li><a href="#products" data-i18n="nav.products">取り扱い海産物</a></li>
         <li><a href="#route" data-i18n="nav.route">志摩からハノイへ</a></li>
         <li><a href="#members" data-i18n="nav.members">構成メンバー</a></li>
+        <li><a href="#history" data-i18n="nav.history">あゆみ</a></li>
         <li><a href="#news" data-i18n="nav.news">お知らせ</a></li>
       </ul>
     </nav>
@@ -202,6 +203,22 @@
   </div>
 </section>
 
+<!-- ================= 輸出実績（月別取扱量） ================= -->
+<section class="section volume" id="volume" hidden>
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">Track Record</p>
+      <h2 class="section-title" data-i18n="volume.title">月別の取扱量</h2>
+      <p class="section-lead" data-i18n="volume.lead">志摩の港から海を越えた水産物の量を、月ごとに記録しています。</p>
+    </header>
+    <div class="volume-wrap reveal">
+      <div class="volume-total" id="volumeTotal"></div>
+      <div class="volume-chart" id="volumeChart"></div>
+    </div>
+    <p class="volume-note" id="volumeNote"></p>
+  </div>
+</section>
+
 <!-- ================= 強み ================= -->
 <section class="section strengths">
   <div class="container">
@@ -275,7 +292,7 @@
       </li>
       <li class="member-card member-card-advisor reveal">
         <span class="member-role" data-i18n="members.m6r">顧問</span>
-        <h3 class="member-person" data-i18n="members.m6p">片野 歩(就任予定)</h3>
+        <h3 class="member-person" data-i18n="members.m6p">片野 歩</h3>
         <p class="member-org" data-i18n="members.m6n">FISK JAPAN</p>
         <p class="member-note" data-i18n="members.m6d">水産物輸出・国際水産事情の専門家として指導・助言</p>
         <div class="member-links" data-links="katano"></div>
@@ -289,6 +306,21 @@
       </li>
     </ul>
     <p class="member-adviser reveal" data-i18n="members.support">三重県・志摩市・JETRO三重と連携して活動しています。</p>
+  </div>
+</section>
+
+<!-- ================= あゆみ ================= -->
+<section class="section history" id="history">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">History</p>
+      <h2 class="section-title" data-i18n="history.title">これまでの、あゆみ</h2>
+      <p class="section-lead" data-i18n="history.lead">志摩の海から世界へ。私たちが積み上げてきた一歩を、時系列で記録しています。</p>
+    </header>
+    <ol class="history-list" id="historyList">
+      <!-- あゆみは data/history.json から自動生成されます（このHTMLは編集不要） -->
+      <li class="news-empty" data-i18n="history.loading">読み込み中…</li>
+    </ol>
   </div>
 </section>
 

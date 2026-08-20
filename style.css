@@ -776,3 +776,81 @@ html[lang="en"] .hero-tategaki {
 .news-more-btn:hover {
   background: var(--sea-deep); border-color: var(--sea-deep); color: #fff;
 }
+
+/* =========================================================
+   月別の取扱量（グラフ）
+   ========================================================= */
+.volume { background: var(--foam, #f4f7f8); }
+.volume-wrap {
+  background: #fff; border: 1px solid rgba(20,60,80,.12);
+  border-radius: 10px; padding: 26px 28px 18px;
+  box-shadow: 0 8px 26px rgba(10,40,60,.06);
+}
+.volume-total {
+  display: flex; align-items: baseline; gap: 8px;
+  padding-bottom: 16px; margin-bottom: 8px;
+  border-bottom: 1px solid rgba(20,60,80,.1);
+}
+.volume-total-label {
+  font-size: 12px; font-weight: 700; letter-spacing: .1em; color: #a4762a;
+}
+.volume-total-num {
+  font-family: var(--font-display); font-size: 34px; font-weight: 700;
+  color: var(--sea-deep); letter-spacing: .02em; line-height: 1;
+}
+.volume-total-unit { font-size: 14px; color: var(--ink-weak); }
+.volume-chart svg { display: block; width: 100%; height: auto; }
+.volume-note { margin-top: 12px; font-size: 12px; color: var(--ink-weak); }
+@media (max-width: 640px) {
+  .volume-wrap { padding: 20px 16px 12px; }
+  .volume-total-num { font-size: 28px; }
+}
+
+/* =========================================================
+   あゆみ（沿革）
+   ========================================================= */
+.history { background: #fff; }
+.history-list { list-style: none; margin: 0; padding: 0; position: relative; }
+/* 縦の線 */
+.history-list::before {
+  content: ""; position: absolute; left: 7px; top: 10px; bottom: 10px;
+  width: 1px; background: rgba(20,60,80,.16);
+}
+.history-item {
+  position: relative; padding: 0 0 30px 34px;
+}
+.history-item:last-child { padding-bottom: 0; }
+.history-dot {
+  position: absolute; left: 0; top: 6px;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: #fff; border: 2.5px solid var(--sea-main, #1F4E5F);
+  box-sizing: border-box;
+}
+.history-item.is-milestone .history-dot {
+  background: #C99236; border-color: #C99236;
+  box-shadow: 0 0 0 4px rgba(201,146,54,.16);
+}
+.history-item.is-upcoming .history-dot {
+  border-style: dashed; border-color: #9aa7ad;
+}
+.history-date {
+  font-size: 12.5px; font-weight: 700; letter-spacing: .08em;
+  color: #a4762a; margin: 0 0 4px;
+  display: flex; align-items: center; gap: 8px;
+}
+.history-flag {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .08em;
+  color: var(--ink-weak); border: 1px solid rgba(20,60,80,.25);
+  border-radius: 999px; padding: 2px 9px;
+}
+.history-title {
+  font-family: var(--font-display); font-size: 17.5px; font-weight: 700;
+  color: var(--sea-deep); letter-spacing: .04em; margin: 0 0 6px; line-height: 1.6;
+}
+.history-item.is-milestone .history-title { font-size: 19px; }
+.history-content p { font-size: 13.5px; line-height: 1.95; color: var(--ink-weak); margin: 0; }
+.history-item.is-upcoming .history-content { opacity: .78; }
+@media (max-width: 640px) {
+  .history-item { padding-left: 28px; padding-bottom: 26px; }
+  .history-title { font-size: 16px; }
+}

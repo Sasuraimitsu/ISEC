@@ -11,7 +11,9 @@ const NEWS_VISIBLE = 5;   // お知らせの初期表示件数（これを変え
 let newsExpanded = false; // 過去のお知らせを開いているか
 let docsData = [];
 let areaMarkers = []; // 志摩半島マップのピン
-let productData = null;   // 取り扱い海産物（data/products.json）
+let productData = null;
+let volumeData = null;    // 月別取扱量（data/volume.json）
+let historyData = [];     // あゆみ（data/history.json）   // 取り扱い海産物（data/products.json）
 let productFilter = "all"; // 現在選択中のカテゴリ
 
 /* =========================================================
@@ -163,6 +165,14 @@ const I18N_EN = {
   "members.m7p": "Shingo Mukai",
   "members.m7n": "Nanbu Kyuso Co., Ltd.",
   "members.m7d": "A logistics specialist auditing the council independently of its members",
+  "nav.history": "History",
+  "history.title": "Our Journey So Far",
+  "history.lead": "From the seas of Shima to the world — a record of the steps we have taken.",
+  "history.loading": "Loading…",
+
+  "volume.title": "Monthly Export Volume",
+  "volume.lead": "A record of how much seafood has crossed the sea from Shima's ports, month by month.",
+
   "products.loading": "Loading…",
 
   "members.support": "Working in cooperation with Mie Prefecture, Shima City and JETRO Mie.",
@@ -265,6 +275,8 @@ function applyLang(lang) {
   if (typeof refreshAreaMarkers === "function") refreshAreaMarkers();
   if (typeof renderProductTabs === "function") renderProductTabs();
   if (typeof renderProducts === "function") renderProducts();
+  if (typeof renderVolume === "function") renderVolume();
+  if (typeof renderHistory === "function") renderHistory();
 }
 
 // 初期言語：保存値 → ブラウザ言語 → 日本語
@@ -637,6 +649,120 @@ function renderProducts() {
   grid.querySelectorAll(".reveal").forEach(observeReveal);
 }
 
+/* ---------------------------------------------------------
+   あゆみ（沿革）
+   ---------------------------------------------------------
+   項目の追加は data/history.json を編集するだけです。
+   "milestone": true を付けると金色で強調表示されます。
+   "upcoming": true を付けると「予定」として点線表示になります。
+--------------------------------------------------------- */
+function renderHistory() {
+  const list = document.getElementById("historyList");
+  if (!list) return;
+  if (!historyData.length) {
+    list.innerHTML = '<li class="news-empty">' +
+      (currentLang === "en" ? "No entries yet." : "記録はまだありません。") + "</li>";
+    return;
+  }
+  list.innerHTML = historyData
+    .map((h) => {
+      const date = currentLang === "en" ? (h.date_en || h.date_ja) : h.date_ja;
+      const title = currentLang === "en" ? (h.title_en || h.title_ja) : h.title_ja;
+      const body = currentLang === "en" ? (h.body_en || h.body_ja) : h.body_ja;
+      const cls = "history-item reveal" +
+        (h.milestone ? " is-milestone" : "") +
+        (h.upcoming ? " is-upcoming" : "");
+      return '<li class="' + cls + '">' +
+        '<span class="history-dot" aria-hidden="true"></span>' +
+        '<div class="history-content">' +
+        '<p class="history-date">' + esc(date || "") +
+        (h.upcoming ? '<span class="history-flag">' +
+          (currentLang === "en" ? "Upcoming" : "予定") + "</span>" : "") +
+        "</p>" +
+        (title ? '<h3 class="history-title">' + esc(title) + "</h3>" : "") +
+        (body ? "<p>" + esc(body) + "</p>" : "") +
+        "</div></li>";
+    })
+    .join("");
+  list.querySelectorAll(".reveal").forEach(observeReveal);
+}
+
+/* ---------------------------------------------------------
+   月別の取扱量：SVG棒グラフ
+   ---------------------------------------------------------
+   数値の追加・修正は data/volume.json を編集するだけです。
+--------------------------------------------------------- */
+function renderVolume() {
+  const sec = document.getElementById("volume");
+  const box = document.getElementById("volumeChart");
+  if (!sec || !box) return;
+  const months = (volumeData && Array.isArray(volumeData.months)) ? volumeData.months : [];
+  const valid = months.filter((m) => Number(m.kg) > 0);
+  // データが1件も無い（すべて0）ならセクションごと非表示
+  if (!valid.length) { sec.hidden = true; return; }
+  sec.hidden = false;
+
+  const unit = currentLang === "en" ? (volumeData.unit_en || "kg") : (volumeData.unit_ja || "kg");
+  const max = Math.max.apply(null, months.map((m) => Number(m.kg) || 0));
+  const step = Math.pow(10, String(Math.round(max)).length - 1) || 1;
+  const top = Math.max(step, Math.ceil(max / step) * step); // 目盛りの上限
+
+  // レイアウト（viewBox座標）
+  const W = 900, H = 340, padL = 62, padR = 20, padT = 24, padB = 52;
+  const iw = W - padL - padR, ih = H - padT - padB;
+  const n = months.length;
+  const slot = iw / n;
+  const bw = Math.min(58, slot * 0.52);
+
+  let g = "";
+  // 横グリッド線と目盛り
+  for (let i = 0; i <= 4; i++) {
+    const v = (top / 4) * i;
+    const y = padT + ih - (ih * i) / 4;
+    g += '<line x1="' + padL + '" y1="' + y + '" x2="' + (W - padR) + '" y2="' + y +
+      '" stroke="#dfe6e9" stroke-width="1"/>';
+    g += '<text x="' + (padL - 10) + '" y="' + (y + 4) +
+      '" text-anchor="end" font-size="12" fill="#7c8b93">' + Math.round(v).toLocaleString() + "</text>";
+  }
+  // 棒とラベル
+  months.forEach((m, i) => {
+    const v = Number(m.kg) || 0;
+    const cx = padL + slot * i + slot / 2;
+    const bh = top > 0 ? (ih * v) / top : 0;
+    const y = padT + ih - bh;
+    const label = currentLang === "en" ? (m.label_en || m.label_ja || m.month) : (m.label_ja || m.month);
+    if (v > 0) {
+      g += '<rect x="' + (cx - bw / 2) + '" y="' + y + '" width="' + bw + '" height="' + bh +
+        '" rx="3" fill="#C99236"/>';
+      g += '<text x="' + cx + '" y="' + (y - 8) +
+        '" text-anchor="middle" font-size="13" font-weight="700" fill="#15374B">' +
+        v.toLocaleString() + "</text>";
+    }
+    g += '<text x="' + cx + '" y="' + (padT + ih + 24) +
+      '" text-anchor="middle" font-size="12.5" fill="#5A6B74">' + esc(label) + "</text>";
+  });
+  // 軸
+  g += '<line x1="' + padL + '" y1="' + (padT + ih) + '" x2="' + (W - padR) + '" y2="' + (padT + ih) +
+    '" stroke="#9aa7ad" stroke-width="1.2"/>';
+  g += '<text x="' + padL + '" y="' + (padT - 8) + '" font-size="12" fill="#7c8b93">(' + esc(unit) + ")</text>";
+
+  box.innerHTML = '<svg viewBox="0 0 ' + W + " " + H +
+    '" role="img" aria-label="' + (currentLang === "en" ? "Monthly export volume" : "月別の取扱量") +
+    '" preserveAspectRatio="xMidYMid meet">' + g + "</svg>";
+
+  // 累計
+  const total = months.reduce((a, m) => a + (Number(m.kg) || 0), 0);
+  const tbox = document.getElementById("volumeTotal");
+  if (tbox) {
+    tbox.innerHTML =
+      '<span class="volume-total-label">' + (currentLang === "en" ? "Cumulative total" : "累計") + "</span>" +
+      '<span class="volume-total-num">' + total.toLocaleString() + "</span>" +
+      '<span class="volume-total-unit">' + esc(unit) + "</span>";
+  }
+  const nbox = document.getElementById("volumeNote");
+  if (nbox) nbox.textContent = currentLang === "en" ? (volumeData.note_en || "") : (volumeData.note_ja || "");
+}
+
 async function loadJson(url) {
   try {
     const res = await fetch(url, { cache: "no-cache" });
@@ -649,18 +775,24 @@ async function loadJson(url) {
 }
 
 (async function initDynamicContent() {
-  const [news, docs, products] = await Promise.all([
+  const [news, docs, products, volume, history] = await Promise.all([
     loadJson("data/news.json"),
     loadJson("data/documents.json"),
     loadJson("data/products.json"),
+    loadJson("data/volume.json"),
+    loadJson("data/history.json"),
   ]);
   if (Array.isArray(news)) newsData = news;
   if (Array.isArray(docs)) docsData = docs;
   if (products && Array.isArray(products.items)) productData = products;
+  if (volume && Array.isArray(volume.months)) volumeData = volume;
+  if (Array.isArray(history)) historyData = history;
   renderNews();
   renderDocs();
   renderProductTabs();
   renderProducts();
+  renderVolume();
+  renderHistory();
 })();
 
 /* =========================================================
