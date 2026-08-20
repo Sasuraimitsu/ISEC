@@ -4,7 +4,7 @@
   "note_ja": "※ 協議会を通じて輸出した水産物の数量です。速報値のため、確定後に修正する場合があります。",
   "note_en": "* Volume of seafood exported through the council. Figures are provisional and may be revised.",
   "months": [
-    { "month": "2026-07", "label_ja": "7月", "label_en": "Jul", "kg": 0 },
+    { "month": "2026-07", "label_ja": "7月", "label_en": "Jul", "kg": 7 },
     { "month": "2026-08", "label_ja": "8月", "label_en": "Aug", "kg": 0 }
   ]
 }
