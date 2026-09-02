@@ -1,0 +1,37 @@
+{
+  "_readme": "4指標。seafood_kg は volume.json の累計で自動計算されるので value は無視されます。value が 0 の項目は「準備中」と表示されます。",
+  "items": [
+    {
+      "key": "seafood_kg",
+      "label_ja": "海を越えた水産物",
+      "label_en": "Seafood exported",
+      "unit_ja": "kg",
+      "unit_en": "kg",
+      "value": 0
+    },
+    {
+      "key": "vessels",
+      "label_ja": "第二の人生を得た漁船",
+      "label_en": "Vessels given a second life",
+      "unit_ja": "隻",
+      "unit_en": "",
+      "value": 1
+    },
+    {
+      "key": "trainees",
+      "label_ja": "研修・交流に参加した人",
+      "label_en": "People in training & exchange",
+      "unit_ja": "人",
+      "unit_en": "",
+      "value": 0
+    },
+    {
+      "key": "countries",
+      "label_ja": "展開している国",
+      "label_en": "Countries",
+      "unit_ja": "か国",
+      "unit_en": "",
+      "value": 2
+    }
+  ]
+}

@@ -13,6 +13,7 @@ let docsData = [];
 let areaMarkers = []; // 志摩半島マップのピン
 let productData = null;
 let volumeData = null;    // 月別取扱量（data/volume.json）
+let recordData = null;    // 4指標（data/record.json）
 let historyData = [];     // あゆみ（data/history.json）   // 取り扱い海産物（data/products.json）
 let productFilter = "all"; // 現在選択中のカテゴリ
 
@@ -59,26 +60,26 @@ const MEMBER_LINKS = {
      JA復帰時はページ読込時に退避した原文へ戻します。
    ========================================================= */
 const I18N_EN = {
-  "meta.title": "Iseshima Seafood Export Council | From Japan's sacred larder to the world.",
-  "meta.desc": "Fishermen, wholesalers, processors and exporters of Ise-Shima, Japan, working as one council to deliver Shima's seafood to Hanoi, Vietnam.",
+  "meta.title": "Iseshima Seafood Export Council | The Ise-Shima sea, to the world.",
+  "meta.desc": "Fishermen, wholesalers, processors and exporters of Ise-Shima, Japan, working as one council to bring Shima's seafood — and the fishing skills and people behind it — to Vietnam and Cambodia.",
 
   "brand.name": "Iseshima Seafood Export Council",
   "brand.sub": "伊勢志摩水産物輸出促進協議会",
 
   "nav.about": "About",
   "nav.products": "Our Seafood",
-  "nav.route": "Shima to Hanoi",
+  "nav.route": "Three Routes",
   "nav.members": "Members",
   "nav.news": "News",
   "nav.contact": "Contact",
 
   "hero.eyebrow": "Shima, Mie Prefecture — from the ports of Anori, Nakiri and Wagu",
   "hero.title": "Iseshima Seafood<br>Export Council",
-  "hero.lead": "Fishermen, wholesalers, freezing &amp; processing, seaweed, and export trade.<br>Five partners of the Ise-Shima sea working as one,<br>bringing the pride of the day's catch to tables across the sea.",
-  "hero.cta1": "See the route from Shima to Hanoi",
-  "hero.cta2": "Talk to us about trade",
+  "hero.lead": "Fishermen, wholesalers, freezing &amp; processing, seaweed, and export trade.<br>Five partners of the Ise-Shima sea working as one,<br>carrying the day's catch — and the skills and people behind it — across the sea.",
+  "hero.cta1": "See the three routes",
+  "hero.cta2": "Trade & partnership inquiries",
   "hero.cert.sqf": "SQF (GFSI-recognized)",
-  "hero.tategaki": "From Japan's sacred larder, to the world.",
+  "hero.tategaki": "The Ise-Shima sea, to the world.",
 
   "ports.caption": "Our home waters",
   "ports.p1": "Anori",
@@ -95,9 +96,9 @@ const I18N_EN = {
   "about.f2t": "Head office",
   "about.f2d": "Anori, Ago-cho, Shima City, Mie, Japan",
   "about.f3t": "Members",
-  "about.f3d": "4 companies + fishermen (Shima / Osaka)",
-  "about.f4t": "First target market",
-  "about.f4d": "Hanoi, Vietnam",
+  "about.f3d": "4 companies + a fisherman (Shima / Osaka), 1 auditor, 1 advisor",
+  "about.f4t": "Destinations",
+  "about.f4d": "Vietnam (Hanoi) · Cambodia (Phnom Penh, Koh Kong)",
 
   "products.title": "Caught, selected, crafted.",
   "products.lead": "From fresh whole fish through primary, secondary and prepared processing to aquaculture. Five partners, each with their own role, delivering in the form your kitchen needs.",
@@ -170,8 +171,8 @@ const I18N_EN = {
   "history.lead": "From the seas of Shima to the world — a record of the steps we have taken.",
   "history.loading": "Loading…",
 
-  "volume.title": "Monthly Export Volume",
-  "volume.lead": "A record of how much seafood has crossed the sea from Shima's ports, month by month.",
+  "volume.title": "What Has Crossed the Sea",
+  "volume.lead": "A record of the fish, vessels and people that have travelled from Shima's ports across the sea. Figures are provisional.",
 
   "products.loading": "Loading…",
 
@@ -199,8 +200,30 @@ const I18N_EN = {
   "area.lead": "Cradled by Ise-Shima National Park, the Shima Peninsula is where sheltered ria inlets meet the Kuroshio Current. Our seafood comes from three ports open to the Pacific — Anori, Nakiri and Wagu — and from Matoya Bay.",
   "area.note": "Select a pin to see each location.",
 
-  "contact.title": "Trade, visits and media inquiries",
-  "contact.lead": "Overseas buyers, restaurants and retailers, press and government — we would love to hear from you.",
+  "contact.title": "Trade, partnership and media inquiries",
+  "contact.lead": "Overseas buyers, restaurants and retailers, government and development agencies, press — we would love to hear from you.",
+  "about.mission": "What we carry across the sea is not only fish. The skills Shima's fishing industry has handed down — reading the sea, keeping a boat sound, training the next generation — are this region's assets too. Alongside seafood exports, the council works to bring the region's fishing know-how, people and equipment overseas, and to build technical cooperation and exchange with fishing communities abroad.",
+  "pillars.title": "Deliver the catch, pass on the skills,<br>grow the people.",
+  "pillars.lead": "Three routes run from the Shima sea to the far shore: one carries the day's catch; one gives retired boats and gear a second life; one passes fishing skills and safety from person to person.",
+  "pillars.p1t": "Route of Seafood — Exports",
+  "pillars.p1d": "Fish and seaweed from Anori, Nakiri and Wagu, prepared at certified plants and flown from Haneda to tables in Southeast Asia. A relay of freshness.",
+  "pillars.p1s": "First export: 28 July 2026",
+  "pillars.p1l": "See the route",
+  "pillars.p2t": "Route of Skills — Vessels & Equipment",
+  "pillars.p2d": "Shima's retired fishing boats and gear go not to scrap but to fishing communities overseas — together with the know-how to maintain and manage them.",
+  "pillars.p2s": "First vessel sailed for Cambodia, July 2026",
+  "pillars.p2l": "See our history",
+  "pillars.p3t": "Route of People — Cooperation & Exchange",
+  "pillars.p3d": "Safe operation, hull and engine care, handling the catch. What Shima's fishermen have learned, passed on through training and exchange.",
+  "pillars.p3s": "In preparation (in consultation with partner institutions)",
+  "pillars.p3l": "Partnership inquiries",
+  "docs.teikanRev": "(amended 19 Aug 2026)",
+  "form.kind": "Type of inquiry",
+  "form.kind.trade": "Seafood trade",
+  "form.kind.visit": "Visit / media",
+  "form.kind.gov": "Government / development-agency partnership (cooperation, exchange)",
+  "form.kind.vessel": "Vessels & equipment overseas",
+  "form.kind.other": "Other",
   "form.name": "Your name",
   "form.req": "Required",
   "form.req2": "Required",
@@ -370,11 +393,19 @@ if ("IntersectionObserver" in window && routeSteps.length > 0) {
 --------------------------------------------------------- */
 const contactForm = document.getElementById("contactForm");
 
+function kindLabel() {
+  const sel = document.getElementById("cfKind");
+  if (!sel) return "";
+  const opt = sel.options[sel.selectedIndex];
+  return opt ? opt.textContent.trim() : "";
+}
+
 function buildMailto(name, org, email, body) {
   const en = currentLang === "en";
+  const kind = kindLabel();
   const subject = en
-    ? `[Inquiry] ${name} (${org || "Individual"})`
-    : `【お問い合わせ】${name}様（${org || "個人"}）`;
+    ? `[Inquiry${kind ? " / " + kind : ""}] ${name} (${org || "Individual"})`
+    : `【お問い合わせ${kind ? "／" + kind : ""}】${name}様（${org || "個人"}）`;
   const lines = en
     ? [
         "To: Iseshima Seafood Export Council",
@@ -382,6 +413,7 @@ function buildMailto(name, org, email, body) {
         `Name: ${name}`,
         `Company / Organization: ${org || "(not provided)"}`,
         `Email: ${email}`,
+        `Type: ${kind || "(not selected)"}`,
         "",
         "--- Inquiry ---",
         body,
@@ -394,6 +426,7 @@ function buildMailto(name, org, email, body) {
         `お名前：${name}`,
         `会社名・団体名：${org || "（未記入）"}`,
         `ご連絡先メール：${email}`,
+        `ご相談の種類：${kind || "（未選択）"}`,
         "",
         "── ご相談内容 ──",
         body,
@@ -688,6 +721,37 @@ function renderHistory() {
 }
 
 /* ---------------------------------------------------------
+   Track Record：4指標タイル
+   ---------------------------------------------------------
+   data/record.json の items を描画。key が "seafood_kg" の項目は
+   data/volume.json の累計kgで値を上書きする（二重管理を防ぐ）。
+   value が 0 または null の項目は「準備中」と表示する。
+--------------------------------------------------------- */
+function renderRecord(months) {
+  const box = document.getElementById("recordGrid");
+  if (!box) return;
+  const items = (recordData && Array.isArray(recordData.items)) ? recordData.items : [];
+  if (!items.length) { box.hidden = true; return; }
+  box.hidden = false;
+  const en = currentLang === "en";
+  const kgTotal = (months || []).reduce((a, m) => a + (Number(m.kg) || 0), 0);
+  box.innerHTML = items.map((it) => {
+    let v = it.key === "seafood_kg" ? kgTotal : it.value;
+    const label = en ? (it.label_en || it.label_ja) : it.label_ja;
+    const unit = en ? (it.unit_en || "") : (it.unit_ja || "");
+    const pending = !(Number(v) > 0);
+    const shown = pending
+      ? (en ? "In preparation" : "準備中")
+      : Number(v).toLocaleString();
+    return '<div class="' + (pending ? "record-pending" : "") + '">' +
+      "<dt>" + esc(label) + "</dt>" +
+      '<dd><span class="record-num">' + esc(shown) + "</span>" +
+      (pending ? "" : '<span class="record-unit">' + esc(unit) + "</span>") +
+      "</dd></div>";
+  }).join("");
+}
+
+/* ---------------------------------------------------------
    月別の取扱量：SVG棒グラフ
    ---------------------------------------------------------
    数値の追加・修正は data/volume.json を編集するだけです。
@@ -698,9 +762,11 @@ function renderVolume() {
   if (!sec || !box) return;
   const months = (volumeData && Array.isArray(volumeData.months)) ? volumeData.months : [];
   const valid = months.filter((m) => Number(m.kg) > 0);
-  // データが1件も無い（すべて0）ならセクションごと非表示
-  if (!valid.length) { sec.hidden = true; return; }
-  sec.hidden = false;
+  renderRecord(months);
+  // 月別グラフは、実績が2か月分以上そろってから表示（1本だけの棒は見せない）
+  const wrap = document.getElementById("volumeWrap");
+  if (wrap) wrap.hidden = valid.length < 2;
+  if (valid.length < 2) return;
 
   const unit = currentLang === "en" ? (volumeData.unit_en || "kg") : (volumeData.unit_ja || "kg");
   const max = Math.max.apply(null, months.map((m) => Number(m.kg) || 0));
@@ -775,13 +841,15 @@ async function loadJson(url) {
 }
 
 (async function initDynamicContent() {
-  const [news, docs, products, volume, history] = await Promise.all([
+  const [news, docs, products, volume, history, record] = await Promise.all([
     loadJson("data/news.json"),
     loadJson("data/documents.json"),
     loadJson("data/products.json"),
     loadJson("data/volume.json"),
     loadJson("data/history.json"),
+    loadJson("data/record.json"),
   ]);
+  if (record && Array.isArray(record.items)) recordData = record;
   if (Array.isArray(news)) newsData = news;
   if (Array.isArray(docs)) docsData = docs;
   if (products && Array.isArray(products.items)) productData = products;

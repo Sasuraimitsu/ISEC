@@ -2,6 +2,16 @@
   {
     "date": "2026.08",
     "datetime": "2026-08",
+    "tag_ja": "お知らせ",
+    "tag_en": "Notice",
+    "title_ja": "定款を一部改正しました",
+    "title_en": "Articles of Association amended",
+    "body_ja": "水産物の輸出に加え、地域の水産業が有する技術・人材・資機材の海外展開と、海外の水産業との技術協力・人材交流を事業に位置づけました（令和8年8月19日 書面決議）。改正後の定款は「規程・公開資料」からご覧いただけます。",
+    "body_en": "Alongside seafood exports, the council's purpose now includes bringing the region's fishing know-how, people and equipment overseas and building technical cooperation and exchange with fishing communities abroad (resolved in writing, 19 Aug 2026). The amended articles are available under Documents."
+  },
+  {
+    "date": "2026.08",
+    "datetime": "2026-08",
     "tag_ja": "活動報告",
     "tag_en": "Report",
     "title_ja": "志摩市長・三重県農林水産部に活動報告",
@@ -15,7 +25,7 @@
     "datetime": "2026-08",
     "tag_ja": "申請開始",
     "tag_en": "Start APP",
-     "title_ja": "準備開始",
+    "title_ja": "準備開始",
     "title_en": "Start Application",
     "body_ja": "ベトナム向け施設登録・国際認証取得の取り組みを開始します。",
     "body_en": "Facility registration for Vietnam and international certification work begins."

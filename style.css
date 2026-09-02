@@ -268,13 +268,78 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
 .about-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 56px; align-items: start; }
 .about-lead { font-size: 16px; line-height: 2.2; }
 .about-lead strong { color: var(--sea-main); font-weight: 700; }
-.about-facts { display: grid; gap: 0; border-top: 1px solid rgba(18,38,58,.14); }
+.about-facts { display: grid; gap: 0; border-top: 1px solid rgba(18,38,58,.14); grid-column: 2; grid-row: 1 / span 2; align-self: start; }
 .about-facts > div {
   display: flex; gap: 18px; padding: 16px 4px;
   border-bottom: 1px solid rgba(18,38,58,.14);
 }
 .about-facts dt { flex: 0 0 7.5em; font-weight: 700; color: var(--sea-deep); font-size: 14px; }
 .about-facts dd { font-size: 14px; color: var(--ink); }
+
+/* ---------- About：使命文 ---------- */
+.about-mission {
+  grid-column: 1;
+  font-family: var(--font-display); font-size: 16.5px; line-height: 2.1;
+  color: var(--sea-deep);
+  padding: 26px 0 0; margin-top: 8px;
+  border-top: 1px solid rgba(18,38,58,.14);
+}
+.about-mission strong { color: var(--net-gold); font-weight: 700; }
+
+/* ---------- 三つの航路 ---------- */
+.pillars { background: #fff; }
+.pillar-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.pillar {
+  padding: 8px 32px 20px;
+  border-left: 1px solid rgba(18,38,58,.14);
+}
+.pillar:first-child { border-left: 0; padding-left: 0; }
+.pillar .pillar-kanji {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 64px; line-height: 1; color: var(--net-gold);
+  margin-bottom: 22px;
+}
+.pillar h3 {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 18px; line-height: 1.6; color: var(--sea-deep);
+  margin-bottom: 14px;
+}
+.pillar p { font-size: 14.5px; line-height: 1.95; color: var(--ink); }
+.pillar .pillar-status {
+  margin-top: 18px; font-size: 12.5px; color: var(--ink-weak);
+  padding-left: 14px; position: relative;
+}
+.pillar-status::before {
+  content: ""; position: absolute; left: 0; top: .55em;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(90,110,122,.45);
+}
+.pillar-status-on::before { background: var(--net-gold); }
+.pillar-link {
+  display: inline-block; margin-top: 14px; font-size: 13.5px; font-weight: 700;
+  color: var(--sea-main); border-bottom: 1px solid currentColor; padding-bottom: 1px;
+}
+.pillar-link:hover { color: var(--net-gold); }
+
+/* ---------- Track Record：4指標 ---------- */
+.record-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  border-top: 1px solid rgba(18,38,58,.14); border-bottom: 1px solid rgba(18,38,58,.14);
+  margin-bottom: 40px;
+}
+.record-grid > div {
+  padding: 26px 22px; border-left: 1px solid rgba(18,38,58,.14);
+}
+.record-grid > div:first-child { border-left: 0; padding-left: 4px; }
+.record-grid dt { font-size: 13px; color: var(--ink-weak); margin-bottom: 10px; }
+.record-grid dd { display: flex; align-items: baseline; gap: 6px; }
+.record-num {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 40px; line-height: 1; color: var(--sea-deep);
+}
+.record-unit { font-size: 14px; color: var(--ink-weak); }
+.record-pending .record-num { font-size: 20px; color: var(--ink-weak); }
+.docs-rev { font-size: 11.5px; color: var(--ink-weak); margin-left: 6px; font-weight: 400; }
 
 /* ---------- 海産物 ---------- */
 .products { background: #fff; }
@@ -485,14 +550,14 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
   background: var(--ebi-red); border-radius: 3px;
   padding: 2px 8px; letter-spacing: .12em;
 }
-.form-row input, .form-row textarea {
+.form-row input, .form-row textarea, .form-row select {
   width: 100%;
   font: inherit; color: var(--ink);
   background: var(--foam);
   border: 1px solid transparent; border-radius: 6px;
   padding: 13px 14px;
 }
-.form-row input:focus, .form-row textarea:focus {
+.form-row input:focus, .form-row textarea:focus, .form-row select:focus {
   outline: none; border-color: var(--net-gold);
   box-shadow: 0 0 0 3px rgba(201,146,54,.3);
 }
@@ -559,6 +624,7 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
 
   .section { padding: 68px 0; }
   .about-grid { grid-template-columns: 1fr; gap: 34px; }
+  .about-mission, .about-facts { grid-column: 1; grid-row: auto; }
   .strength-grid { grid-template-columns: 1fr; }
   .member-list li { grid-template-columns: 1fr; gap: 4px; padding: 16px 4px; }
   .news-list li { flex-wrap: wrap; gap: 10px; }
@@ -853,4 +919,16 @@ html[lang="en"] .hero-tategaki {
 @media (max-width: 640px) {
   .history-item { padding-left: 28px; padding-bottom: 26px; }
   .history-title { font-size: 16px; }
+}
+
+/* ---------- 三つの航路／指標：レスポンシブ ---------- */
+@media (max-width: 900px) {
+  .pillar-row { grid-template-columns: 1fr; }
+  .pillar { border-left: 0; padding: 26px 0; border-top: 1px solid rgba(18,38,58,.14); }
+  .pillar:first-child { border-top: 0; padding-top: 0; }
+  .pillar-kanji { font-size: 48px; margin-bottom: 14px; }
+  .record-grid { grid-template-columns: repeat(2, 1fr); }
+  .record-grid > div { padding: 20px 16px; }
+  .record-grid > div:nth-child(odd) { border-left: 0; }
+  .record-grid > div:nth-child(n+3) { border-top: 1px solid rgba(18,38,58,.14); }
 }
