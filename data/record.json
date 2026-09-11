@@ -1,5 +1,5 @@
 {
-  "_readme": "4指標。seafood_kg は volume.json の累計で自動計算されるので value は無視されます。value が 0 の項目は「準備中」と表示されます。",
+  "_readme": "4指標。seafood_kg は exports.json の累計で自動計算されるので value は無視されます。value が 0 の項目は「準備中」と表示されます。people（海を越えた人）は現地で指導・研修・交流を行った延べ人数を手で更新してください。",
   "items": [
     {
       "key": "seafood_kg",
@@ -18,12 +18,12 @@
       "value": 1
     },
     {
-      "key": "trainees",
-      "label_ja": "研修・交流に参加した人",
-      "label_en": "People in training & exchange",
+      "key": "people",
+      "label_ja": "海を越えた人",
+      "label_en": "People who crossed the sea",
       "unit_ja": "人",
       "unit_en": "",
-      "value": 0
+      "value": 1
     },
     {
       "key": "countries",

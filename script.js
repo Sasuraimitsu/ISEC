@@ -12,9 +12,10 @@ let newsExpanded = false; // 過去のお知らせを開いているか
 let docsData = [];
 let areaMarkers = []; // 志摩半島マップのピン
 let productData = null;
-let volumeData = null;    // 月別取扱量（data/volume.json）
+let exportsData = null;   // 輸出実績（data/exports.json）… 一覧・月別グラフ・累計kgの単一情報源
 let recordData = null;    // 4指標（data/record.json）
-let historyData = [];     // あゆみ（data/history.json）   // 取り扱い海産物（data/products.json）
+let historyData = [];     // あゆみ（data/history.json）
+// productData … 取り扱い海産物（data/products.json）
 let productFilter = "all"; // 現在選択中のカテゴリ
 
 /* =========================================================
@@ -173,6 +174,7 @@ const I18N_EN = {
 
   "volume.title": "What Has Crossed the Sea",
   "volume.lead": "A record of the fish, vessels and people that have travelled from Shima's ports across the sea. Figures are provisional.",
+  "exports.title": "Export record",
 
   "products.loading": "Loading…",
 
@@ -724,7 +726,7 @@ function renderHistory() {
    Track Record：4指標タイル
    ---------------------------------------------------------
    data/record.json の items を描画。key が "seafood_kg" の項目は
-   data/volume.json の累計kgで値を上書きする（二重管理を防ぐ）。
+   data/exports.json の累計kgで値を上書きする（二重管理を防ぐ）。
    value が 0 または null の項目は「準備中」と表示する。
 --------------------------------------------------------- */
 function renderRecord(months) {
@@ -752,23 +754,119 @@ function renderRecord(months) {
 }
 
 /* ---------------------------------------------------------
-   月別の取扱量：SVG棒グラフ
+   輸出実績（data/exports.json）
    ---------------------------------------------------------
-   数値の追加・修正は data/volume.json を編集するだけです。
+   1件 = 1回の輸出。追加は data/exports.json の items に1ブロック足すだけ。
+     date  … "YYYY-MM-DD"（半角）。この形式でない行は無視される（空行対策）
+     kg    … 数値。0 や未記入は「—」表示で、累計には入らない
+   一覧テーブル・月別グラフ・「海を越えた水産物」の累計kgは
+   すべてこのファイルから自動集計する（volume.json は廃止）。
+--------------------------------------------------------- */
+const EN_MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// 有効な行だけを新しい順で返す
+function exportItems() {
+  const raw = (exportsData && Array.isArray(exportsData.items)) ? exportsData.items : [];
+  return raw
+    .filter((it) => it && typeof it.date === "string" && /^\d{4}-\d{2}-\d{2}$/.test(it.date))
+    .slice()
+    .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+}
+
+// "2026-07-28" → JA "2026.07.28" / EN "28 Jul 2026"
+function fmtExportDate(iso) {
+  const [y, m, d] = iso.split("-");
+  return currentLang === "en"
+    ? Number(d) + " " + EN_MONTHS[Number(m) - 1] + " " + y
+    : y + "." + m + "." + d;
+}
+
+// exports.json → 月別集計（最初の月〜最後の月を欠けなく並べる。輸出0の月は kg:0）
+function monthsFromExports(items) {
+  if (!items.length) return [];
+  const map = new Map();
+  items.forEach((it) => {
+    const key = it.date.slice(0, 7);
+    map.set(key, (map.get(key) || 0) + (Number(it.kg) || 0));
+  });
+  const keys = [...map.keys()].sort();
+  const [y0, m0] = keys[0].split("-").map(Number);
+  const [y1, m1] = keys[keys.length - 1].split("-").map(Number);
+  const multiYear = y0 !== y1;
+  const out = [];
+  for (let y = y0, m = m0; y < y1 || (y === y1 && m <= m1); ) {
+    const key = y + "-" + String(m).padStart(2, "0");
+    out.push({
+      month: key,
+      label_ja: (multiYear ? y + "年" : "") + m + "月",
+      label_en: EN_MONTHS[m - 1] + (multiYear ? " " + String(y).slice(2) : ""),
+      kg: map.get(key) || 0,
+    });
+    m += 1; if (m > 12) { m = 1; y += 1; }
+  }
+  return out;
+}
+
+// 一覧テーブル
+function renderExports(items) {
+  const block = document.getElementById("exportBlock");
+  const table = document.getElementById("exportTable");
+  if (!block || !table) return;
+  const list = items || exportItems();
+  if (!list.length) { block.hidden = true; table.innerHTML = ""; return; }
+  block.hidden = false;
+  const en = currentLang === "en";
+  const ed = exportsData || {};
+  const unit = en ? (ed.unit_en || "kg") : (ed.unit_ja || "kg");
+  const H = en
+    ? { date: "Date", items: "Products", port: "From", dest: "To", kg: "Volume", total: "Total" }
+    : { date: "日付", items: "品目", port: "出荷元", dest: "輸出先", kg: "数量", total: "累計" };
+  const rows = list.map((it) => {
+    const kg = Number(it.kg) || 0;
+    const prod = en ? (it.items_en || it.items_ja) : it.items_ja;
+    const port = en ? (it.port_en || it.port_ja) : it.port_ja;
+    const dest = en ? (it.dest_en || it.dest_ja) : it.dest_ja;
+    const note = en ? (it.note_en || it.note_ja) : it.note_ja;
+    return "<tr>" +
+      '<td class="is-date">' + esc(fmtExportDate(it.date)) + "</td>" +
+      "<td>" + esc(prod || "") + (note ? '<span class="export-note">' + esc(note) + "</span>" : "") + "</td>" +
+      '<td class="is-port">' + esc(port || "") + "</td>" +
+      "<td>" + esc(dest || "") + "</td>" +
+      '<td class="is-kg">' + (kg > 0 ? kg.toLocaleString() + "<small>" + esc(unit) + "</small>" : "—") + "</td>" +
+      "</tr>";
+  }).join("");
+  const total = list.reduce((a, it) => a + (Number(it.kg) || 0), 0);
+  table.innerHTML =
+    "<thead><tr>" +
+    "<th>" + H.date + "</th><th>" + H.items + "</th>" +
+    '<th class="is-port">' + H.port + "</th><th>" + H.dest + "</th>" +
+    '<th class="is-kg">' + H.kg + "</th>" +
+    "</tr></thead><tbody>" + rows + "</tbody>" +
+    '<tfoot><tr><td colspan="4">' + H.total + "</td>" +
+    '<td class="is-kg">' + total.toLocaleString() + "<small>" + esc(unit) + "</small></td></tr></tfoot>";
+}
+
+/* ---------------------------------------------------------
+   月別の取扱量：SVG棒グラフ（exports.json から自動集計）
 --------------------------------------------------------- */
 function renderVolume() {
   const sec = document.getElementById("volume");
   const box = document.getElementById("volumeChart");
   if (!sec || !box) return;
-  const months = (volumeData && Array.isArray(volumeData.months)) ? volumeData.months : [];
-  const valid = months.filter((m) => Number(m.kg) > 0);
+  const items = exportItems();
+  const months = monthsFromExports(items);
   renderRecord(months);
+  renderExports(items);
+  const ed = exportsData || {};
+  const nbox = document.getElementById("volumeNote");
+  if (nbox) nbox.textContent = items.length ? (currentLang === "en" ? (ed.note_en || "") : (ed.note_ja || "")) : "";
   // 月別グラフは、実績が2か月分以上そろってから表示（1本だけの棒は見せない）
+  const valid = months.filter((m) => Number(m.kg) > 0);
   const wrap = document.getElementById("volumeWrap");
   if (wrap) wrap.hidden = valid.length < 2;
-  if (valid.length < 2) return;
+  if (valid.length < 2) { box.innerHTML = ""; return; }
 
-  const unit = currentLang === "en" ? (volumeData.unit_en || "kg") : (volumeData.unit_ja || "kg");
+  const unit = currentLang === "en" ? (ed.unit_en || "kg") : (ed.unit_ja || "kg");
   const max = Math.max.apply(null, months.map((m) => Number(m.kg) || 0));
   const step = Math.pow(10, String(Math.round(max)).length - 1) || 1;
   const top = Math.max(step, Math.ceil(max / step) * step); // 目盛りの上限
@@ -825,8 +923,6 @@ function renderVolume() {
       '<span class="volume-total-num">' + total.toLocaleString() + "</span>" +
       '<span class="volume-total-unit">' + esc(unit) + "</span>";
   }
-  const nbox = document.getElementById("volumeNote");
-  if (nbox) nbox.textContent = currentLang === "en" ? (volumeData.note_en || "") : (volumeData.note_ja || "");
 }
 
 async function loadJson(url) {
@@ -841,11 +937,11 @@ async function loadJson(url) {
 }
 
 (async function initDynamicContent() {
-  const [news, docs, products, volume, history, record] = await Promise.all([
+  const [news, docs, products, exportsJson, history, record] = await Promise.all([
     loadJson("data/news.json"),
     loadJson("data/documents.json"),
     loadJson("data/products.json"),
-    loadJson("data/volume.json"),
+    loadJson("data/exports.json"),
     loadJson("data/history.json"),
     loadJson("data/record.json"),
   ]);
@@ -853,7 +949,7 @@ async function loadJson(url) {
   if (Array.isArray(news)) newsData = news;
   if (Array.isArray(docs)) docsData = docs;
   if (products && Array.isArray(products.items)) productData = products;
-  if (volume && Array.isArray(volume.months)) volumeData = volume;
+  if (exportsJson && Array.isArray(exportsJson.items)) exportsData = exportsJson;
   if (Array.isArray(history)) historyData = history;
   renderNews();
   renderDocs();

@@ -83,17 +83,20 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
 .header-inner {
   width: 100%; max-width: 1240px; margin-inline: auto;
   padding-inline: 24px;
-  display: flex; align-items: center; gap: 28px;
+  display: flex; align-items: center; gap: 20px;
 }
-.brand { display: flex; align-items: center; gap: 12px; color: inherit; }
+.brand { display: flex; align-items: center; gap: 12px; color: inherit; flex: 0 0 auto; }
 .brand-mark { color: var(--net-gold); flex: 0 0 auto; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.25; }
-.brand-name { font-family: var(--font-display); font-weight: 600; font-size: 15px; letter-spacing: .06em; }
+.brand-name { font-family: var(--font-display); font-weight: 600; font-size: 15px; letter-spacing: .06em; white-space: nowrap; }
 .brand-en { font-size: 9px; letter-spacing: .28em; opacity: .75; }
 
-.global-nav { margin-left: auto; }
-.global-nav ul { display: flex; gap: 26px; }
-.global-nav a { color: inherit; font-size: 13.5px; letter-spacing: .08em; position: relative; padding-block: 6px; }
+/* PCナビ：必ず1段に収める（折返し禁止・字間と余白を詰める）。
+   収まらない幅（1180px以下）はドロワー表示に切り替える（下のメディアクエリ） */
+.global-nav { margin-left: auto; flex: 0 0 auto; }
+.global-nav ul { display: flex; flex-wrap: nowrap; gap: clamp(14px, 1.4vw, 20px); }
+.global-nav li { flex: 0 0 auto; }
+.global-nav a { color: inherit; font-size: 13px; letter-spacing: .04em; white-space: nowrap; position: relative; padding-block: 6px; }
 .global-nav a::after {
   content: ""; position: absolute; left: 0; right: 0; bottom: 0;
   height: 2px; background: var(--net-gold);
@@ -102,10 +105,10 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
 .global-nav a:hover::after { transform: scaleX(1); }
 
 .header-cta {
-  flex: 0 0 auto;
-  padding: 10px 20px; border-radius: 999px;
+  flex: 0 0 auto; white-space: nowrap;
+  padding: 10px 18px; border-radius: 999px;
   background: var(--net-gold); color: #fff !important;
-  font-size: 13.5px; letter-spacing: .1em; font-weight: 700;
+  font-size: 13px; letter-spacing: .08em; font-weight: 700;
   transition: transform .2s ease, box-shadow .2s ease;
 }
 .header-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(201,146,54,.4); opacity: 1; }
@@ -339,6 +342,35 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
 }
 .record-unit { font-size: 14px; color: var(--ink-weak); }
 .record-pending .record-num { font-size: 20px; color: var(--ink-weak); }
+
+/* ---------- 輸出実績（一覧：data/exports.json） ---------- */
+.export-block { margin-bottom: 40px; }
+.export-title {
+  font-family: var(--font-display); font-size: 20px; font-weight: 700;
+  color: var(--sea-deep); letter-spacing: .06em; margin: 0 0 14px; line-height: 1.5;
+}
+.export-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.export-table { width: 100%; border-collapse: collapse; font-size: 13.5px; line-height: 1.7; color: var(--ink); }
+.export-table th, .export-table td {
+  padding: 12px 10px; text-align: left; vertical-align: top;
+  border-bottom: 1px solid rgba(18,38,58,.14);
+}
+.export-table th {
+  font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--ink-weak);
+  border-bottom-color: rgba(18,38,58,.3); white-space: nowrap;
+}
+.export-table td.is-date { white-space: nowrap; color: #a4762a; font-weight: 700; letter-spacing: .04em; font-size: 12.5px; }
+.export-table th.is-kg, .export-table td.is-kg { text-align: right; white-space: nowrap; }
+.export-table td.is-kg { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--sea-deep); line-height: 1.3; }
+.export-table td.is-kg small { font-family: var(--font-body); font-weight: 400; font-size: 12px; color: var(--ink-weak); margin-left: 3px; }
+.export-note { display: block; font-size: 12px; color: var(--ink-weak); margin-top: 2px; }
+.export-table tfoot td { border-bottom: 0; border-top: 1px solid rgba(18,38,58,.3); font-weight: 700; }
+@media (max-width: 640px) {
+  .export-table { font-size: 13px; }
+  .export-table th, .export-table td { padding: 10px 8px; }
+  .export-table .is-port { display: none; }
+  .export-table td.is-kg { font-size: 16px; }
+}
 .docs-rev { font-size: 11.5px; color: var(--ink-weak); margin-left: 6px; font-weight: 400; }
 
 /* ---------- 海産物 ---------- */
@@ -597,10 +629,8 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
   .hero-tategaki { display: none; }
 }
 
-@media (max-width: 768px) {
-  .sp-only { display: inline; }
-
-  /* SPナビ：ドロワー化 */
+/* タブレット〜小型PC：ナビが1段に収まらない幅はドロワー化（CTA・言語切替はヘッダーに残す） */
+@media (max-width: 1180px) {
   .global-nav {
     position: fixed; inset: var(--header-h) 0 auto 0;
     background: rgba(13,29,46,.97);
@@ -611,9 +641,21 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
   .site-header.is-solid .global-nav { background: rgba(245,247,244,.98); }
   .global-nav.is-open { transform: translateY(0); }
   .global-nav ul { flex-direction: column; gap: 0; }
-  .global-nav a { display: block; padding: 14px 4px; font-size: 15px; border-bottom: 1px solid rgba(143,182,196,.25); }
+  .global-nav li { flex: none; }
+  .global-nav a { display: block; padding: 14px 4px; font-size: 15px; white-space: normal; border-bottom: 1px solid rgba(143,182,196,.25); }
+  .lang-switch { margin-left: auto; margin-right: 4px; }
+  .nav-toggle { display: flex; margin-left: 0; }
+}
+
+@media (max-width: 768px) {
+  .sp-only { display: inline; }
   .header-cta { display: none; }
-  .nav-toggle { display: flex; }
+  /* SPのブランド表示：横幅に合わせて2行まで折返し可（英語表記は省略） */
+  .brand { flex: 1 1 auto; min-width: 0; }
+  .brand-text { min-width: 0; }
+  .brand-name { font-size: 13px; letter-spacing: .03em; line-height: 1.3; white-space: normal; }
+  .brand-en { display: none; }
+  .lang-switch { padding: 6px 10px; }
 
   .hero-inner { padding-bottom: 90px; }
   .hero-lead br { display: none; }
@@ -644,11 +686,11 @@ h1, h2, h3, p, dl, dd, dt { margin: 0; }
 
 /* ---- 言語切替ボタン ---- */
 .lang-switch {
-  flex: 0 0 auto;
+  flex: 0 0 auto; white-space: nowrap;
   display: flex; align-items: center; gap: 6px;
   background: none; border: 1px solid currentColor; border-radius: 999px;
   color: inherit; cursor: pointer;
-  padding: 7px 14px;
+  padding: 7px 12px;
   font-family: var(--font-body); font-size: 12px; letter-spacing: .08em;
   transition: background .2s ease;
 }
@@ -680,7 +722,7 @@ html[lang="en"] .hero-lead { line-height: 1.9; }
 html[lang="en"] .section-title { line-height: 1.3; }
 html[lang="en"] .port-kanji { font-size: 26px; letter-spacing: .04em; }
 html[lang="en"] .hero-eyebrow { letter-spacing: .18em; }
-html[lang="en"] .global-nav a { letter-spacing: .06em; }
+html[lang="en"] .global-nav a { letter-spacing: .05em; }
 
 /* 縦書き → 横組み（EN） */
 html[lang="en"] .hero-tategaki {
@@ -701,11 +743,6 @@ html[lang="en"] .hero-tategaki {
   html[lang="en"] .hero-tategaki { display: none; } /* JA同様、タブレット以下は非表示 */
 }
 
-/* SPナビ内での言語ボタン位置（ヘッダー右に残す） */
-@media (max-width: 768px) {
-  .lang-switch { margin-left: auto; margin-right: 4px; }
-  .nav-toggle { margin-left: 0; }
-}
 
 /* =========================================================
    志摩半島マップ

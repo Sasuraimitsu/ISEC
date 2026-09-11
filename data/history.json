@@ -43,12 +43,28 @@
     "milestone": true
   },
   {
-    "date_ja": "令和8年8月20日頃",
-    "date_en": "Around 20 August 2026",
-    "title_ja": "漁船がカンボジア・コッコン州へ到着予定",
-    "title_en": "Vessel due to arrive in Koh Kong, Cambodia",
-    "body_ja": "志摩を出港した第1船が現地に到着します。漁の技術と魚の管理の継承が、ここから始まります。",
-    "body_en": "The first vessel reaches its destination. From here, the transfer of fishing skills and quality management begins.",
-    "upcoming": true
+    "date_ja": "令和8年8月",
+    "date_en": "August 2026",
+    "title_ja": "第1船がカンボジアの港に到着、通関",
+    "title_en": "First vessel reaches Cambodia and clears customs",
+    "body_ja": "志摩からフラットラックで海上輸送した第1船がカンボジアの港に到着。通関を経て、受入先のコッコン州へ向かいました。",
+    "body_en": "Shipped from Shima on a flat rack, the first vessel arrived at a Cambodian port, cleared customs and set off for Koh Kong Province."
+  },
+  {
+    "date_ja": "令和8年9月6日",
+    "date_en": "6 September 2026",
+    "title_ja": "第1船がコッコン州の現場に到着、受入先の漁業組合と協議",
+    "title_en": "First vessel arrives at the Koh Kong site; talks with the host fishing cooperative",
+    "body_ja": "クレーンで着水し、現地の漁業組合と受入体制や現地のニーズについて協議しました。",
+    "body_en": "The vessel was lowered into the water by crane, and we met the local fishing cooperative to discuss the handover and their needs."
+  },
+  {
+    "date_ja": "令和8年9月7日",
+    "date_en": "7 September 2026",
+    "title_ja": "現地で始動 ― 志摩の漁師による操縦・整備の指導が始まる",
+    "title_en": "Operations begin — a Shima fisherman starts hands-on training in vessel handling and maintenance",
+    "body_ja": "井上副会長（第1和丸船長）が現地に渡り、漁船の操縦・整備・安全操業の手ほどきを開始。船に続いて「人」が海を越え、技の継承がここから始まります。",
+    "body_en": "Vice-Chairman Inoue, captain of the Dai-ichi Kazu Maru, travelled to the site to begin hands-on instruction in vessel handling, maintenance and safe operation. After the boat, people are now crossing the sea — and the handover of skills begins here.",
+    "milestone": true
   }
 ]

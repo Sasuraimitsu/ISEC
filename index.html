@@ -251,8 +251,15 @@
       <h2 class="section-title" data-i18n="volume.title">海を越えたもの</h2>
       <p class="section-lead" data-i18n="volume.lead">志摩の港から海の向こうへ渡った魚、船、人を記録しています。数字は速報値です。</p>
     </header>
-    <!-- 4指標（data/record.json）。水産物kgは data/volume.json の累計を自動反映 -->
+    <!-- 4指標（data/record.json）。水産物kgは data/exports.json の累計を自動反映 -->
     <dl class="record-grid reveal" id="recordGrid"></dl>
+    <!-- 輸出実績（data/exports.json）。1件でも登録があれば表示。月別グラフも同じファイルから自動集計 -->
+    <div class="export-block reveal" id="exportBlock" hidden>
+      <h3 class="export-title" data-i18n="exports.title">輸出実績</h3>
+      <div class="export-table-wrap">
+        <table class="export-table" id="exportTable"></table>
+      </div>
+    </div>
     <div class="volume-wrap reveal" id="volumeWrap" hidden>
       <div class="volume-total" id="volumeTotal"></div>
       <div class="volume-chart" id="volumeChart"></div>
