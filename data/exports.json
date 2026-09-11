@@ -14,7 +14,7 @@
       "kg": 6,
       "note_ja": "7月28日、協議会として初めての輸出",
       "note_en": "First export by the council, 28 July"
-    }
+    },
     {
       "month": "2026-08",
       "items_ja": "安乗鯖・安乗鯵・赤カマス・未来干物",
@@ -22,14 +22,6 @@
       "dest_ja": "カンボジア",
       "dest_en": "Cambodia",
       "kg": 19,
-    }
-    {
-      "month": "2026-09",
-      "items_ja": "安乗鯖・安乗鯵",
-      "items_en": "Anori mackerel and Anori horse mackerel",
-      "dest_ja": "カンボジア",
-      "dest_en": "Cambodia",
-      "kg": ,
     }
   ]
 }
