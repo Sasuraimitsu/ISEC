@@ -1,0 +1,34 @@
+{
+  "_readme": "輸出実績（1か月＝1行）。months に月ごとに1ブロック追加。month は YYYY-MM（半角・月は2桁）、kg はその月の合計数量（数値）。ブロックとブロックの間だけカンマ、最後のブロックの後ろにはカンマなし。一覧・月別グラフ・「海を越えた水産物」の累計kgはこのファイルから自動集計されます。",
+  "unit_ja": "kg",
+  "unit_en": "kg",
+  "note_ja": "※ 協議会を通じて輸出した水産物の月別数量です。速報値のため、確定後に修正する場合があります。",
+  "note_en": "* Monthly volume of seafood exported through the council. Figures are provisional and may be revised.",
+  "months": [
+    {
+      "month": "2026-07",
+      "items_ja": "安乗鯖・安乗鯵",
+      "items_en": "Anori mackerel and Anori horse mackerel",
+      "dest_ja": "カンボジア",
+      "dest_en": "Cambodia",
+      "kg": 6,
+      "note_ja": "7月28日、協議会として初めての輸出",
+      "note_en": "First export by the council, 28 July"
+    },
+    {
+      "month": "2026-08",
+      "items_ja": "安乗鯖・安乗鯵・赤カマス・未来干物",
+      "items_en": "Anori mackerel, Anori horse mackerel, red barracuda and dried fish",
+      "dest_ja": "カンボジア",
+      "dest_en": "Cambodia",
+      "kg": 19
+    },
+    {
+      "month": "2026-09",
+      "items_ja": "安乗鯖・安乗鯵",
+      "items_en": "Anori mackerel and Anori horse mackerel",
+      "dest_ja": "カンボジア",
+      "dest_en": "Cambodia"
+    }
+  ]
+}

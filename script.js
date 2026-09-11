@@ -936,15 +936,66 @@ function renderVolume() {
   }
 }
 
+/* ---------------------------------------------------------
+   JSON 読み込み（よくある書式ミスを自動補正）
+   ---------------------------------------------------------
+   厳密な JSON として読めなかったときだけ、次の3つを直して再挑戦する。
+     ・ } や ] や 値 の直後に { や [ や " が続く（ブロック間・項目間のカンマ忘れ）
+     ・ } や ] の直前の余分なカンマ（最後の項目にカンマを付けた）
+     ・ "kg": , のように値が空（null 扱い＝「—」表示）
+   それでも読めない崩れ（引用符の欠落・全角記号など）は読み込み失敗になる。
+   ページURLの末尾に ?debug を付けると、失敗・補正したファイルと理由を画面下に表示する。
+   （例：https://sasuraimitsu.github.io/ISEC/?debug）
+--------------------------------------------------------- */
+const DATA_LOAD_ISSUES = []; // {level:"error"|"warn", msg}
+
+function parseJsonLenient(text, url) {
+  const src = String(text).replace(/^\uFEFF/, ""); // BOM除去
+  try {
+    return JSON.parse(src);
+  } catch (e0) {
+    const fixed = src
+      .replace(/:\s*(?=[,}\]])/g, ": null")             // 値が空 → null
+      .replace(/}(\s*)(?={)/g, "},$1")                     // ブロック間のカンマ忘れ（} の次に { ）
+      .replace(/(["\d])([ \t]*\n\s*)(?=")/g, "$1,$2")     // 項目間のカンマ忘れ（行末の値の次行がキー）
+      .replace(/,(\s*[}\]])/g, "$1");                    // 余分なカンマ
+    try {
+      const obj = JSON.parse(fixed);
+      DATA_LOAD_ISSUES.push({ level: "warn", msg: url + " … 書式ミス（カンマ／空の値）を自動補正して表示しています。元ファイルの修正を推奨： " + e0.message });
+      console.warn("JSONの書式ミスを自動補正して読み込みました:", url, e0.message);
+      return obj;
+    } catch (e1) {
+      DATA_LOAD_ISSUES.push({ level: "error", msg: url + " … 読み込み失敗（JSONの書式エラー）： " + e1.message });
+      console.warn("JSONの読み込みに失敗しました:", url, e1.message);
+      return null;
+    }
+  }
+}
+
 async function loadJson(url) {
   try {
     const res = await fetch(url, { cache: "no-cache" });
-    if (!res.ok) throw new Error(res.status);
-    return await res.json();
+    if (!res.ok) throw new Error("HTTP " + res.status + "（ファイルが無いか、置き場所が違います）");
+    return parseJsonLenient(await res.text(), url);
   } catch (e) {
+    DATA_LOAD_ISSUES.push({ level: "error", msg: url + " … " + (e && e.message ? e.message : String(e)) });
     console.warn("読み込みに失敗しました:", url, e);
     return null;
   }
+}
+
+// ?debug 付きで開いたときだけ、読み込みの問題を画面下に表示（一般閲覧者には出ない）
+function showDataLoadIssues() {
+  if (!/[?&]debug(=|&|$)/.test(location.search)) return;
+  const box = document.createElement("div");
+  box.setAttribute("role", "status");
+  box.style.cssText = "position:fixed;left:0;right:0;bottom:0;z-index:9999;padding:10px 16px;" +
+    "font:13px/1.7 sans-serif;color:#fff;white-space:pre-wrap;box-shadow:0 -4px 16px rgba(0,0,0,.2);" +
+    (DATA_LOAD_ISSUES.some((i) => i.level === "error") ? "background:#B23B2E;" : DATA_LOAD_ISSUES.length ? "background:#a4762a;" : "background:#2f7d5b;");
+  box.textContent = DATA_LOAD_ISSUES.length
+    ? "【データ読み込みチェック】\n" + DATA_LOAD_ISSUES.map((i) => (i.level === "error" ? "✕ " : "△ ") + i.msg).join("\n")
+    : "【データ読み込みチェック】すべての data/*.json を正常に読み込みました。";
+  document.body.appendChild(box);
 }
 
 (async function initDynamicContent() {
@@ -968,6 +1019,7 @@ async function loadJson(url) {
   renderProducts();
   renderVolume();
   renderHistory();
+  showDataLoadIssues();
 })();
 
 /* =========================================================
