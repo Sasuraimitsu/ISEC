@@ -1,12 +1,12 @@
 {
-  "_readme": "輸出実績。items に1件ずつ追加（新旧の順序は自由・表示は date の新しい順に自動整列）。date は YYYY-MM-DD、kg は数値。月別グラフと「海を越えた水産物」の累計kgはこのファイルから自動集計されます。",
+  "_readme": "輸出実績（1か月＝1行）。months に月ごとに1ブロック追加。month は YYYY-MM（半角・月は2桁）、kg はその月の合計数量（数値）。一覧・月別グラフ・「海を越えた水産物」の累計kgはこのファイルから自動集計されます。",
   "unit_ja": "kg",
   "unit_en": "kg",
-  "note_ja": "※ 協議会を通じて輸出した水産物の数量です。速報値のため、確定後に修正する場合があります。",
-  "note_en": "* Volume of seafood exported through the council. Figures are provisional and may be revised.",
-  "items": [
+  "note_ja": "※ 協議会を通じて輸出した水産物の月別数量です。速報値のため、確定後に修正する場合があります。",
+  "note_en": "* Monthly volume of seafood exported through the council. Figures are provisional and may be revised.",
+  "months": [
     {
-      "date": "2026-07-28",
+      "month": "2026-07",
       "items_ja": "安乗鯖・安乗鯵",
       "items_en": "Anori mackerel and Anori horse mackerel",
       "port_ja": "安乗漁港（志摩市）",
@@ -14,8 +14,8 @@
       "dest_ja": "カンボジア",
       "dest_en": "Cambodia",
       "kg": 7,
-      "note_ja": "協議会として初めての輸出（設立から4日）",
-      "note_en": "The council's first export, four days after founding"
+      "note_ja": "7月28日、協議会として初めての輸出",
+      "note_en": "First export by the council, 28 July"
     }
   ]
 }
