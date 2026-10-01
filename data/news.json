@@ -1,6 +1,28 @@
 [
   {
     "date": "2026.09",
+    "datetime": "2026-09-27",
+    "tag_ja": "活動報告",
+    "tag_en": "Report",
+    "title_ja": "コッコン州の漁業組合の皆さんと意見交換を行いました",
+    "title_en": "Meeting with fishing cooperatives in Koh Kong Province",
+    "body_ja": "9月27日、コッコン州のChroy Svay漁業組合で、近隣の漁業組合の皆さんと意見交換を行いました。日々の漁業や暮らしについて伺うなかで、牡蠣養殖と組合運営の二つに関心が集まりました。現地の声をもとに、協議会として何ができるかを検討していきます。",
+    "body_en": "On 27 September, we met members of neighbouring fishing cooperatives at the Chroy Svay cooperative in Koh Kong Province. As we listened to them talk about their fishing and daily lives, two themes stood out: oyster farming and cooperative management. The council will consider how it can help, building on what we heard.",
+    "photo": "images/news/coop-20260927.jpg"
+  },
+  {
+    "date": "2026.09",
+    "datetime": "2026-09-25",
+    "tag_ja": "活動報告",
+    "tag_en": "Report",
+    "title_ja": "カンボジアで現地調査を行いました",
+    "title_en": "Field survey in Cambodia",
+    "body_ja": "9月25日から28日にかけて、協議会のメンバー5名がカンボジアを訪れ、コッコン州とシアヌークビル州の沿岸で現地調査を行いました。シアヌークビル近郊の魚類養殖場やスタンハウのエビ養殖場では、生簀や池の周りで天然の牡蠣が育っていることを確認しました。志摩の技術を活かせる可能性を、引き続き調べていきます。",
+    "body_en": "From 25 to 28 September, five council members visited Cambodia for a field survey along the coasts of Koh Kong and Preah Sihanouk provinces. At a fish farm near Sihanoukville and a shrimp farm at Stung Hav, we found wild oysters growing on the cages and around the ponds. We will keep exploring where Shima's know-how can make a difference.",
+    "photo": "images/news/survey-20260925.jpg"
+  },
+  {
+    "date": "2026.09",
     "datetime": "2026-09",
     "tag_ja": "活動報告",
     "tag_en": "Report",
