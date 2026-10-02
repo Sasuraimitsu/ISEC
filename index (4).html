@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n="meta.title">伊勢志摩水産物輸出促進協議会｜御食国の海を、世界へ</title>
+<meta name="description" data-i18n-content="meta.desc" content="伊勢志摩の漁師・仲買・冷凍加工・海藻・輸出商流の五者が連携し、志摩の水産物と、それを支えてきた漁の技・人を、ベトナム・カンボジアへ届ける協議会の公式サイトです。">
+
+<!-- フォント：JA見出し=しっぽり明朝B1／EN見出し=Cormorant Garamond／本文=Zen角ゴシックNew -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= ヘッダー ================= -->
+<header class="site-header" id="siteHeader">
+  <div class="header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 40 40" width="34" height="34" role="img" aria-label="ロゴ">
+          <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M6 24c4-4 8 4 12 0s8 4 12 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M9 17c3.5-3.5 7 3.5 10.5 0S26.5 20.5 30 17" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity=".65"/>
+        </svg>
+      </span>
+      <span class="brand-text">
+        <span class="brand-name" data-i18n="brand.name">伊勢志摩水産物輸出促進協議会</span>
+        <span class="brand-en" data-i18n="brand.sub">ISESHIMA SEAFOOD EXPORT COUNCIL</span>
+      </span>
+    </a>
+
+    <nav class="global-nav" id="globalNav" aria-label="サイト内メニュー">
+      <ul>
+        <li><a href="#about" data-i18n="nav.about">協議会について</a></li>
+        <li><a href="#products" data-i18n="nav.products">取り扱い海産物</a></li>
+        <li><a href="#pillars" data-i18n="nav.route">三つの航路</a></li>
+        <li><a href="#members" data-i18n="nav.members">構成メンバー</a></li>
+        <li><a href="#history" data-i18n="nav.history">あゆみ</a></li>
+        <li><a href="#news" data-i18n="nav.news">お知らせ</a></li>
+      </ul>
+    </nav>
+
+    <!-- 言語切替 -->
+    <button class="lang-switch" id="langSwitch" type="button" aria-label="Switch language">
+      <span class="lang-opt" data-lang-opt="ja">日本語</span>
+      <span class="lang-sep">/</span>
+      <span class="lang-opt" data-lang-opt="en">EN</span>
+    </button>
+
+    <a href="#contact" class="header-cta" data-i18n="nav.contact">お問い合わせ</a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="globalNav" aria-label="メニューを開く">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ================= ヒーロー ================= -->
+<section class="hero" aria-label="メインビジュアル">
+  <!-- 実写真差し替え：style.css の .hero 内コメント参照 -->
+  <div class="hero-sea" aria-hidden="true">
+    <span class="light light-1"></span>
+    <span class="light light-2"></span>
+    <span class="light light-3"></span>
+  </div>
+
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <p class="hero-eyebrow" data-i18n="hero.eyebrow">三重県志摩市｜安乗・波切・和具の海から</p>
+      <h1 class="hero-title" data-i18n-html="hero.title">伊勢志摩水産物<br>輸出促進協議会</h1>
+      <p class="hero-lead" data-i18n-html="hero.lead">
+        漁師、仲買、冷凍加工、海藻、輸出商流。<br>
+        伊勢志摩の海に生きる五者がひとつになり、<br>
+        獲れたその日の魚と、それを支えてきた技と人を、海の向こうへ。
+      </p>
+      <div class="hero-actions">
+        <a href="#pillars" class="btn btn-primary" data-i18n="hero.cta1">三つの航路を見る</a>
+        <a href="#contact" class="btn btn-ghost" data-i18n="hero.cta2">取引・連携のご相談</a>
+      </div>
+      <ul class="hero-certs" aria-label="保有認証">
+        <li>HACCP</li>
+        <li data-i18n="hero.cert.sqf">SQF（GFSI承認）</li>
+        <li>JFS-B</li>
+      </ul>
+    </div>
+
+    <!-- シグネチャー：JA=縦書き／EN=横組み（CSSで自動切替） -->
+    <p class="hero-tategaki" aria-hidden="true" data-i18n-html="hero.tategaki">御食国の海を、<br><span class="tategaki-shift">世界へ。</span></p>
+  </div>
+
+  <svg class="wave wave-hero" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,48 C240,88 480,8 720,40 C960,72 1200,24 1440,52 L1440,90 L0,90 Z"></path>
+  </svg>
+</section>
+
+<!-- ================= 三つの漁港 ================= -->
+<section class="ports" aria-label="拠点となる漁港">
+  <div class="container ports-row">
+    <p class="ports-caption" data-i18n="ports.caption">わたしたちの海</p>
+    <ul class="ports-list">
+      <li><span class="port-kanji" data-i18n="ports.p1">安乗</span><span class="port-note" data-i18n="ports.p1n">あのりふぐの港。仲買と加工が一つ屋根に</span></li>
+      <li><span class="port-kanji" data-i18n="ports.p2">波切</span><span class="port-note" data-i18n="ports.p2n">大王埼灯台の港。鰹とともに生きてきた町</span></li>
+      <li><span class="port-kanji" data-i18n="ports.p3">和具</span><span class="port-note" data-i18n="ports.p3n">海女とともにある港。伊勢えび・あわびの海</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 志摩半島マップ ================= -->
+<section class="section area" id="area">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">The Peninsula</p>
+      <h2 class="section-title" data-i18n="area.title">志摩半島と、わたしたちの漁港</h2>
+      <p class="section-lead" data-i18n="area.lead">伊勢志摩国立公園に抱かれた志摩半島。リアス海岸の内湾と黒潮が出会うこの海の、外洋に開かれた安乗・波切・和具の3つの港と的矢湾から、私たちの水産物は生まれます。</p>
+    </header>
+    <div class="area-map-wrap reveal">
+      <div id="areaMap" aria-label="志摩半島の地図"></div>
+    </div>
+    <p class="area-note" data-i18n="area.note">ピンを選ぶと、各拠点の説明が表示されます。</p>
+  </div>
+</section>
+
+<!-- ================= 協議会について ================= -->
+<section class="section about" id="about">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">About</p>
+      <h2 class="section-title" data-i18n-html="about.title">五つの技が、<br class="sp-only">ひとつの海で結ばれる。</h2>
+    </header>
+
+    <div class="about-grid">
+      <p class="about-lead reveal" data-i18n-html="about.lead">
+        伊勢志摩水産物輸出促進協議会は、志摩の<strong>漁師・仲買・冷凍加工・海藻・輸出商流</strong>の五者が設立した、地域に開かれた団体です。それぞれの海で磨いてきた技と誇りを持ち寄り、獲る・目利きする・加工する・届けるまでを一気通貫で担います。国際認証（HACCP・SQF・JFS-B）を持つ二つの工場と、東南アジアで実際に商う現地販路。伊勢志摩の海の恵みを、鮮度と信頼ごと輸出します。
+      </p>
+      <p class="about-mission reveal" data-i18n-html="about.mission">
+        わたしたちが海の向こうへ届けるのは、魚だけではありません。志摩の水産業が受け継いできた<strong>漁の技、船を守る技、人を育てる技</strong>もまた、この地域の財産です。協議会は、水産物の輸出とあわせて、地域の水産業が有する技術・人材・資機材の海外展開と、海外の水産業との技術協力・人材交流に取り組みます。
+      </p>
+      <dl class="about-facts reveal">
+        <div><dt data-i18n="about.f1t">設立</dt><dd data-i18n="about.f1d">令和8年（2026年）7月24日</dd></div>
+        <div><dt data-i18n="about.f2t">所在地</dt><dd data-i18n="about.f2d">三重県志摩市阿児町安乗178番地3</dd></div>
+        <div><dt data-i18n="about.f3t">構成</dt><dd data-i18n="about.f3d">法人4社＋漁師（志摩市志島）、監事1名、顧問1名</dd></div>
+        <div><dt data-i18n="about.f4t">展開先</dt><dd data-i18n="about.f4d">ベトナム（ハノイ）・カンボジア（プノンペン・コッコン州）</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 三つの航路 ================= -->
+<section class="section pillars" id="pillars">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">Three Routes</p>
+      <h2 class="section-title" data-i18n-html="pillars.title">恵みを届け、技を渡し、<br class="sp-only">人を育てる。</h2>
+      <p class="section-lead" data-i18n="pillars.lead">志摩の海から海の向こうへ、三つの航路が伸びています。獲れた魚を届ける航路、役目を終えた船と道具に第二の人生を与える航路、そして漁の技と安全を人から人へ渡す航路。</p>
+    </header>
+
+    <div class="pillar-row">
+      <article class="pillar reveal">
+        <p class="pillar-kanji" aria-hidden="true">恵</p>
+        <h3 data-i18n="pillars.p1t">恵みの航路 ― 水産物輸出</h3>
+        <p data-i18n="pillars.p1d">安乗・波切・和具の魚と海藻を、認証工場で仕立て、羽田から東南アジアの食卓へ。鮮度のリレーが設計図です。</p>
+        <p class="pillar-status pillar-status-on" data-i18n="pillars.p1s">令和8年7月28日、初輸出</p>
+        <a class="pillar-link" href="#route" data-i18n="pillars.p1l">航路の詳細を見る</a>
+      </article>
+
+      <article class="pillar reveal">
+        <p class="pillar-kanji" aria-hidden="true">技</p>
+        <h3 data-i18n="pillars.p2t">技の航路 ― 漁船・資機材の海外展開</h3>
+        <p data-i18n="pillars.p2d">役目を終えた志摩の漁船や漁具を、廃船にせず海の向こうの漁業者へ。船とともに、整備と管理の技を渡します。</p>
+        <p class="pillar-status pillar-status-on" data-i18n="pillars.p2s">令和8年7月、第1船がカンボジアへ</p>
+        <a class="pillar-link" href="#history" data-i18n="pillars.p2l">あゆみを見る</a>
+      </article>
+
+      <article class="pillar reveal">
+        <p class="pillar-kanji" aria-hidden="true">人</p>
+        <h3 data-i18n="pillars.p3t">人の航路 ― 技術協力・人材交流</h3>
+        <p data-i18n="pillars.p3d">安全な操業、船体とエンジンの整備、魚の扱い。志摩の漁業者が身につけてきたことを、研修と交流を通じて次の担い手へ。</p>
+        <p class="pillar-status" data-i18n="pillars.p3s">準備中（関係機関と協議中）</p>
+        <a class="pillar-link" href="#contact" data-i18n="pillars.p3l">連携のご相談</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 取り扱い海産物 ================= -->
+<section class="section products" id="products">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">Our Seafood</p>
+      <h2 class="section-title" data-i18n="products.title">獲る、目利きする、仕立てる。</h2>
+      <p class="section-lead" data-i18n="products.lead">生鮮から一次・二次・三次加工、養殖まで。五者それぞれの持ち場が連なり、レストランの一皿に合わせた形でお届けします。</p>
+    </header>
+
+    <!-- カテゴリ切替（data/products.json から自動生成） -->
+    <div class="product-tabs reveal" id="productTabs"></div>
+
+    <!-- 商品カード（data/products.json から自動生成。このHTMLは編集不要） -->
+    <div class="product-grid" id="productGrid">
+      <p class="news-empty" data-i18n="products.loading">読み込み中…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 航路 ================= -->
+<section class="section route" id="route">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">The Route of Seafood</p>
+      <h2 class="section-title" data-i18n="route.title">朝、志摩の港。翌々日、海の向こうの食卓。</h2>
+      <p class="section-lead" data-i18n="route.lead">集荷から加工・冷凍までが一つの敷地で完結し、羽田空港至近の拠点から直行便約6時間。鮮度のリレーが、この航路の設計図です。</p>
+    </header>
+
+    <ol class="route-line" id="routeLine">
+      <li class="route-step reveal">
+        <span class="route-no">1</span>
+        <h3 data-i18n="route.s1t">水揚げ</h3>
+        <p data-i18n="route.s1d">安乗・波切・和具の漁港から、その日の魚を。</p>
+      </li>
+      <li class="route-step reveal">
+        <span class="route-no">2</span>
+        <h3 data-i18n="route.s2t">加工・冷凍</h3>
+        <p data-i18n="route.s2d">港の目の前、HACCP・SQF認証工場で即日処理。</p>
+      </li>
+      <li class="route-step reveal">
+        <span class="route-no">3</span>
+        <h3 data-i18n="route.s3t">羽田から空輸</h3>
+        <p data-i18n="route.s3d">空港至近の輸出拠点から、直行便で約6時間。</p>
+      </li>
+      <li class="route-step reveal">
+        <span class="route-no">4</span>
+        <h3 data-i18n="route.s4t">東南アジアの食卓へ</h3>
+        <p data-i18n="route.s4d">ハノイ・プノンペン現地で商う自前の販路が、最後の一皿まで届けます。</p>
+      </li>
+    </ol>
+    <!-- YouTube動画（script.js の YOUTUBE_VIDEO_ID を設定すると表示されます） -->
+    <div class="route-video reveal" id="routeVideo" hidden></div>
+  </div>
+</section>
+
+<!-- ================= 輸出実績（月別取扱量） ================= -->
+<section class="section volume" id="volume">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">Track Record</p>
+      <h2 class="section-title" data-i18n="volume.title">海を越えたもの</h2>
+      <p class="section-lead" data-i18n="volume.lead">志摩の港から海の向こうへ渡った魚、船、人を記録しています。数字は速報値です。</p>
+    </header>
+    <!-- 4指標（data/record.json）。水産物kgは data/exports.json の累計を自動反映 -->
+    <dl class="record-grid reveal" id="recordGrid"></dl>
+    <!-- 輸出実績（data/exports.json、1か月＝1行）。1か月分でも登録があれば表示。月別グラフも同じファイルから自動集計 -->
+    <div class="export-block reveal" id="exportBlock" hidden>
+      <h3 class="export-title" data-i18n="exports.title">輸出実績</h3>
+      <div class="export-table-wrap">
+        <table class="export-table" id="exportTable"></table>
+      </div>
+    </div>
+    <div class="volume-wrap reveal" id="volumeWrap" hidden>
+      <div class="volume-total" id="volumeTotal"></div>
+      <div class="volume-chart" id="volumeChart"></div>
+    </div>
+    <p class="volume-note" id="volumeNote"></p>
+  </div>
+</section>
+
+<!-- ================= 強み ================= -->
+<section class="section strengths">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">Why Us</p>
+      <h2 class="section-title" data-i18n="why.title">信頼は、書類と現場の両方でつくる。</h2>
+    </header>
+    <div class="strength-grid">
+      <div class="strength reveal">
+        <h3 data-i18n="why.s1t">国際認証の工場が二つ</h3>
+        <p data-i18n="why.s1d">HACCP・SQF（GFSI承認）・JFS-B。輸出先の基準に、施設ごと応えます。</p>
+      </div>
+      <div class="strength reveal">
+        <h3 data-i18n="why.s2t">敷地内一体のサプライチェーン</h3>
+        <p data-i18n="why.s2d">仲買の本社敷地内に加工場。集荷から冷凍保管まで、移動ゼロで鮮度を守ります。</p>
+      </div>
+      <div class="strength reveal">
+        <h3 data-i18n="why.s3t">東南アジアの現地販路</h3>
+        <p data-i18n="why.s3d">ベトナム・カンボジアへの輸出実績と現地小売。市場の声が直接届く距離で商います。</p>
+      </div>
+      <div class="strength reveal">
+        <h3 data-i18n="why.s4t">小ロット・多品種</h3>
+        <p data-i18n="why.s4d">フィレも調理加工も。レストランの献立に合わせた柔軟な供給が可能です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 構成メンバー ================= -->
+<section class="section members" id="members">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">Members</p>
+      <h2 class="section-title" data-i18n="members.title">五者の顔ぶれ</h2>
+    </header>
+    <ul class="member-grid">
+      <li class="member-card reveal">
+        <span class="member-role" data-i18n="members.m1r">会長／仲買</span>
+        <h3 class="member-person" data-i18n="members.m1p">片山 勝仁</h3>
+        <p class="member-org" data-i18n="members.m1n">心勢水産有限会社</p>
+        <p class="member-note" data-i18n="members.m1d">伊勢志摩の目利きと商流（志摩市安乗）</p>
+        <div class="member-links" data-links="katayama"></div>
+      </li>
+      <li class="member-card reveal">
+        <span class="member-role" data-i18n="members.m3r">副会長／漁師</span>
+        <h3 class="member-person" data-i18n="members.m3p">井上 和</h3>
+        <p class="member-org" data-i18n="members.m3n">漁船「第1和丸」船長</p>
+        <p class="member-note" data-i18n="members.m3d">志島の海と漁師ネットワーク</p>
+        <div class="member-links" data-links="inoue"></div>
+      </li>
+      <li class="member-card reveal">
+        <span class="member-role" data-i18n="members.m2r">理事／冷凍・加工</span>
+        <h3 class="member-person" data-i18n="members.m2p">石川 隆将</h3>
+        <p class="member-org" data-i18n="members.m2n">有限会社伊勢志摩冷凍</p>
+        <p class="member-note" data-i18n="members.m2d">HACCP・SQF認証工場、香港・タイ・シンガポール輸出実績</p>
+        <div class="member-links" data-links="ishikawa"></div>
+      </li>
+      <li class="member-card reveal">
+        <span class="member-role" data-i18n="members.m4r">理事／海藻</span>
+        <h3 class="member-person" data-i18n="members.m4p">廣岡 辰一</h3>
+        <p class="member-org" data-i18n="members.m4n">カネウフーズ株式会社</p>
+        <p class="member-note" data-i18n="members.m4d">創業150年、JFS-B認証工場（志島・鵜方）</p>
+        <div class="member-links" data-links="hirooka"></div>
+      </li>
+      <li class="member-card reveal">
+        <span class="member-role" data-i18n="members.m5r">事務局／輸出</span>
+        <h3 class="member-person" data-i18n="members.m5p">光信 嘉久</h3>
+        <p class="member-org" data-i18n="members.m5n">株式会社METIS</p>
+        <p class="member-note" data-i18n="members.m5d">ベトナム・カンボジア輸出、羽田至近の輸出拠点</p>
+        <div class="member-links" data-links="metis"></div>
+      </li>
+      <li class="member-card member-card-advisor reveal">
+        <span class="member-role" data-i18n="members.m6r">顧問</span>
+        <h3 class="member-person" data-i18n="members.m6p">片野 歩（就任予定）</h3>
+        <p class="member-org" data-i18n="members.m6n">FISK JAPAN</p>
+        <p class="member-note" data-i18n="members.m6d">水産物輸出・国際水産事情の専門家として指導・助言</p>
+        <div class="member-links" data-links="katano"></div>
+      </li>
+      <li class="member-card member-card-advisor reveal">
+        <span class="member-role" data-i18n="members.m7r">監事</span>
+        <h3 class="member-person" data-i18n="members.m7p">向井 新悟</h3>
+        <p class="member-org" data-i18n="members.m7n">南部急送有限会社</p>
+        <p class="member-note" data-i18n="members.m7d">物流の専門家として、構成員から独立した中立の立場で監査</p>
+        <div class="member-links" data-links="mukai"></div>
+      </li>
+    </ul>
+    <p class="member-adviser reveal" data-i18n="members.support">三重県志摩市を中心に活動しています。</p>
+  </div>
+</section>
+
+<!-- ================= あゆみ ================= -->
+<section class="section history" id="history">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">History</p>
+      <h2 class="section-title" data-i18n="history.title">これまでの、あゆみ</h2>
+      <p class="section-lead" data-i18n="history.lead">志摩の海から世界へ。私たちが積み上げてきた一歩を、時系列で記録しています。</p>
+    </header>
+    <ol class="history-list" id="historyList">
+      <!-- あゆみは data/history.json から自動生成されます（このHTMLは編集不要） -->
+      <li class="news-empty" data-i18n="history.loading">読み込み中…</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ================= お知らせ ================= -->
+<section class="section news" id="news">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">News</p>
+      <h2 class="section-title" data-i18n="news.title">お知らせ</h2>
+    </header>
+    <ul class="news-list" id="newsList">
+      <!-- お知らせは data/news.json から自動生成されます（このHTMLは編集不要） -->
+      <li class="news-empty" data-i18n="news.loading">読み込み中…</li>
+    </ul>
+    <!-- 過去のお知らせ開閉ボタン（6件目以降がある場合に自動表示） -->
+    <div class="news-more" id="newsMore"></div>
+  </div>
+</section>
+
+<!-- ================= 規程・公開資料 ================= -->
+<section class="section docs" id="docs">
+  <div class="container">
+    <header class="section-head reveal">
+      <p class="section-eyebrow">Documents</p>
+      <h2 class="section-title" data-i18n="docs.title">規程・公開資料</h2>
+      <p class="section-lead" data-i18n="docs.lead">協議会の定款・諸規程、および事業計画・事業報告をPDFでご覧いただけます。</p>
+    </header>
+
+    <!-- 規程（基本文書） -->
+    <h3 class="docs-group-title reveal" data-i18n="docs.g1">規程</h3>
+    <ul class="docs-list">
+      <li class="reveal"><a href="docs/01_teikan.pdf" target="_blank" rel="noopener"><span class="docs-num">別添1</span><span data-i18n="docs.d1">定款<span class="docs-rev" data-i18n="docs.teikanRev">（令和8年8月19日 一部改正）</span></span><span class="docs-type">PDF</span></a></li>
+      <li class="reveal"><a href="docs/02_soshiki_kitei.pdf" target="_blank" rel="noopener"><span class="docs-num">別添2</span><span data-i18n="docs.d2">組織規程</span><span class="docs-type">PDF</span></a></li>
+      <li class="reveal"><a href="docs/03_keiri_kitei.pdf" target="_blank" rel="noopener"><span class="docs-num">別添3</span><span data-i18n="docs.d3">経理規程</span><span class="docs-type">PDF</span></a></li>
+    </ul>
+
+    <!-- 事業計画・事業報告（data/documents.json から自動生成） -->
+    <h3 class="docs-group-title reveal" data-i18n="docs.g2">事業計画・事業報告</h3>
+    <ul class="docs-list" id="plansList">
+      <li class="news-empty" data-i18n="docs.loading">読み込み中…</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= お問い合わせ ================= -->
+<section class="section contact" id="contact">
+  <svg class="wave wave-contact" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,42 C240,82 480,2 720,34 C960,66 1200,18 1440,46 L1440,0 L0,0 Z"></path>
+  </svg>
+  <div class="container contact-inner">
+    <header class="section-head section-head-invert reveal">
+      <p class="section-eyebrow">Contact</p>
+      <h2 class="section-title" data-i18n="contact.title">取引・連携・取材のご相談</h2>
+      <p class="section-lead" data-i18n="contact.lead">海外バイヤーの方、飲食店・小売の方、行政・支援機関の方、報道の方。まずはお気軽にご連絡ください。</p>
+    </header>
+
+    <!-- 送信先は script.js 先頭の INQUIRY_ENDPOINT（GAS）。未設定・送信失敗時はメール作成に切替 -->
+    <form class="contact-form reveal" id="contactForm" novalidate>
+      <div class="form-row">
+        <label for="cfKind"><span data-i18n="form.kind">ご相談の種類</span></label>
+        <select id="cfKind" name="kind">
+          <option value="domestic" data-i18n="form.kind.domestic">仕入れのご相談（国内の飲食店・小売の方）</option>
+          <option value="trade" data-i18n="form.kind.trade">水産物の取引（海外バイヤーの方）</option>
+          <option value="visit" data-i18n="form.kind.visit">視察・取材</option>
+          <option value="gov" data-i18n="form.kind.gov">行政・支援機関との連携（技術協力・人材交流など）</option>
+          <option value="vessel" data-i18n="form.kind.vessel">漁船・資機材の海外展開</option>
+          <option value="other" data-i18n="form.kind.other">その他</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label for="cfName"><span data-i18n="form.name">お名前</span><span class="req" data-i18n="form.req">必須</span></label>
+        <input type="text" id="cfName" name="name" autocomplete="name" required maxlength="100" placeholder="例）山田 太郎" data-i18n-ph="form.name.ph">
+      </div>
+      <div class="form-row">
+        <label for="cfOrg"><span data-i18n="form.org">会社名・団体名</span></label>
+        <input type="text" id="cfOrg" name="org" autocomplete="organization" maxlength="150" placeholder="例）Hanoi Fine Foods Co., Ltd." data-i18n-ph="form.org.ph">
+      </div>
+      <div class="form-row">
+        <label for="cfMail"><span data-i18n="form.mail">ご連絡先メール</span><span class="req" data-i18n="form.req2">必須</span></label>
+        <input type="email" id="cfMail" name="email" autocomplete="email" required maxlength="200" placeholder="例）you@example.com" data-i18n-ph="form.mail.ph">
+      </div>
+      <div class="form-row">
+        <label for="cfTel"><span data-i18n="form.tel">お電話番号</span></label>
+        <input type="tel" id="cfTel" name="tel" autocomplete="tel" maxlength="40" placeholder="例）03-1234-5678" data-i18n-ph="form.tel.ph">
+      </div>
+      <div class="form-row">
+        <label for="cfPlace"><span data-i18n="form.place">所在地（都道府県・国）</span></label>
+        <input type="text" id="cfPlace" name="place" autocomplete="address-level1" maxlength="150" placeholder="例）東京都港区／Hanoi, Vietnam" data-i18n-ph="form.place.ph">
+      </div>
+      <div class="form-row" id="cfTradeBox">
+        <label for="cfWant"><span data-i18n="form.want">ご希望の品目・数量・頻度</span></label>
+        <textarea id="cfWant" name="want" rows="2" maxlength="1000" placeholder="例）安乗鯖 週20kg程度、鮮魚またはフィレ" data-i18n-ph="form.want.ph"></textarea>
+      </div>
+      <div class="form-row">
+        <label for="cfBody"><span data-i18n="form.body">ご相談内容</span><span class="req" data-i18n="form.req3">必須</span></label>
+        <textarea id="cfBody" name="body" rows="5" required maxlength="4000" placeholder="例）ハノイの日本食レストラン向けに、鮮魚と冷凍フィレの仕入れを検討しています。" data-i18n-ph="form.body.ph"></textarea>
+      </div>
+      <!-- 機械送信対策（人には見えない項目。入力があれば受付しない） -->
+      <div class="hp-field" aria-hidden="true">
+        <label for="cfWebsite">Website</label>
+        <input type="text" id="cfWebsite" name="website" tabindex="-1" autocomplete="off">
+      </div>
+      <p class="form-privacy" data-i18n="form.privacy">ご入力いただいた情報は、お問い合わせへの回答と、会員事業者へのご紹介のために利用します。ご紹介にあたっては、必要な範囲で会員事業者に提供します。</p>
+      <label class="form-check" id="cfConsentRow">
+        <input type="checkbox" id="cfConsent" name="consent">
+        <span data-i18n="form.consent">上記の個人情報の取扱いに同意します</span><span class="req" data-i18n="form.req4">必須</span>
+      </label>
+      <p class="form-note" id="formNote" data-i18n="form.note">送信内容は協議会事務局に届きます。仕入れのご相談には、内容に応じて会員事業者をご紹介します。</p>
+      <button type="submit" class="btn btn-primary btn-wide" id="cfSubmit" data-i18n="form.submit">送信する</button>
+      <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+      <p class="form-alt"><span data-i18n="form.alt">送信できない場合はこちらへ直接ご連絡ください：</span> <a href="#" id="mailFallback">…</a></p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ================= フッター ================= -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <p class="footer-name" data-i18n="footer.name">伊勢志摩水産物輸出促進協議会</p>
+      <p class="footer-en" data-i18n="footer.sub">ISESHIMA SEAFOOD EXPORT COUNCIL</p>
+      <p class="footer-addr" data-i18n="footer.addr">三重県志摩市阿児町安乗178番地3（心勢水産有限会社内）</p>
+    </div>
+    <nav class="footer-nav" aria-label="フッターメニュー">
+      <a href="#about" data-i18n="nav.about">協議会について</a>
+      <a href="#products" data-i18n="nav.products">取り扱い海産物</a>
+      <a href="#route" data-i18n="nav.route">志摩からハノイへ</a>
+      <a href="#members" data-i18n="nav.members">構成メンバー</a>
+      <a href="#contact" data-i18n="nav.contact">お問い合わせ</a>
+    </nav>
+  </div>
+  <p class="footer-copy">© <span id="year"></span> Iseshima Seafood Export Council</p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
