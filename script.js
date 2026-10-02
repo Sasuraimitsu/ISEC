@@ -4,6 +4,8 @@
    ★ 最初にここだけ設定 ★ Gmail作成後にアドレスを書き換え
    ========================================================= */
 const CONTACT_EMAIL = "generalaffairs.isec@gmail.com"; // ← 変更してください
+// 問い合わせの送信先（GASウェブアプリの …/exec のURL）。空欄なら従来どおりメール作成画面を開く
+const INQUIRY_ENDPOINT = "https://script.google.com/macros/s/AKfycbzTG5rlRNJLoEnTR6sJemOAkzzqyfzgRZFV7Ssys4GLUXifsAxVPkBilHrXQ90ddlA/exec";
 
 // 動的コンテンツ用データ（お知らせ・事業計画/報告）：初期化前参照を避けるため冒頭で宣言
 let newsData = [];
@@ -221,7 +223,8 @@ const I18N_EN = {
   "pillars.p3l": "Partnership inquiries",
   "docs.teikanRev": "(amended 19 Aug 2026)",
   "form.kind": "Type of inquiry",
-  "form.kind.trade": "Seafood trade",
+  "form.kind.domestic": "Sourcing inquiry (restaurants & retailers in Japan)",
+  "form.kind.trade": "Seafood trade (overseas buyers)",
   "form.kind.visit": "Visit / media",
   "form.kind.gov": "Government / development-agency partnership (cooperation, exchange)",
   "form.kind.vessel": "Vessels & equipment overseas",
@@ -237,9 +240,18 @@ const I18N_EN = {
   "form.mail.ph": "e.g. you@example.com",
   "form.body": "Your inquiry",
   "form.body.ph": "e.g. We are looking to source fresh fish and frozen fillets for Japanese restaurants in Hanoi.",
-  "form.note": "Pressing the button opens your email app with the message pre-filled.",
-  "form.submit": "Send us an email",
-  "form.alt": "If your email app does not open, please write to us directly:",
+  "form.note": "Your message goes to the council secretariat. For sourcing inquiries, we will introduce you to a suitable member business.",
+  "form.submit": "Send",
+  "form.alt": "If you cannot send the form, please write to us directly:",
+  "form.tel": "Phone",
+  "form.tel.ph": "e.g. +84 24 1234 5678",
+  "form.place": "Location (city / country)",
+  "form.place.ph": "e.g. Hanoi, Vietnam",
+  "form.want": "Items, volume and frequency",
+  "form.want.ph": "e.g. Anori mackerel, about 20 kg per week, fresh or fillet",
+  "form.privacy": "We use the information you provide to respond to your inquiry and to introduce you to our member businesses. When introducing you, we share only what is necessary with the relevant member.",
+  "form.consent": "I agree to the handling of my personal information described above",
+  "form.req4": "Required",
 
   "footer.name": "Iseshima Seafood Export Council",
   "footer.sub": "伊勢志摩水産物輸出促進協議会",
@@ -390,10 +402,25 @@ if ("IntersectionObserver" in window && routeSteps.length > 0) {
 }
 
 /* ---------------------------------------------------------
-   お問い合わせ（mailto方式）
-   件名・本文は表示中の言語で組み立てます。
+   お問い合わせ（GAS送信方式／未設定・失敗時はメールに切替）
+   ・送信成功は「サーバーが ok:true を返した時だけ」表示（誤成功表示の防止）
+   ・通信エラー／タイムアウト時は入力を残したまま、メールで送るボタンを出す
+   ・requestId は成功するまで同じ値を使う → 再送しても台帳が二重登録されない
 --------------------------------------------------------- */
 const contactForm = document.getElementById("contactForm");
+const formOpenedAt = Date.now();
+let inquirySending = false;
+let inquiryRequestId = newRequestId();
+
+function newRequestId() {
+  if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
+  return "r-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 12);
+}
+
+function kindValue() {
+  const sel = document.getElementById("cfKind");
+  return sel ? sel.value : "";
+}
 
 function kindLabel() {
   const sel = document.getElementById("cfKind");
@@ -402,84 +429,181 @@ function kindLabel() {
   return opt ? opt.textContent.trim() : "";
 }
 
-function buildMailto(name, org, email, body) {
+// 取引系のときだけ「品目・数量・頻度」を表示
+function toggleTradeFields() {
+  const box = document.getElementById("cfTradeBox");
+  if (!box) return;
+  const k = kindValue();
+  box.hidden = !(k === "domestic" || k === "trade");
+}
+
+function fieldValue(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : "";
+}
+
+function collectInquiry() {
+  const box = document.getElementById("cfTradeBox");
+  const consent = document.getElementById("cfConsent");
+  return {
+    kind: kindValue(),
+    name: fieldValue("cfName"),
+    org: fieldValue("cfOrg"),
+    email: fieldValue("cfMail"),
+    tel: fieldValue("cfTel"),
+    place: fieldValue("cfPlace"),
+    want: box && !box.hidden ? fieldValue("cfWant") : "",
+    body: fieldValue("cfBody"),
+    website: fieldValue("cfWebsite"),
+    consent: !!(consent && consent.checked),
+    lang: currentLang,
+    elapsedMs: Date.now() - formOpenedAt,
+    requestId: inquiryRequestId,
+  };
+}
+
+function buildMailto(d) {
   const en = currentLang === "en";
   const kind = kindLabel();
+  const na = en ? "(not provided)" : "（未記入）";
   const subject = en
-    ? `[Inquiry${kind ? " / " + kind : ""}] ${name} (${org || "Individual"})`
-    : `【お問い合わせ${kind ? "／" + kind : ""}】${name}様（${org || "個人"}）`;
+    ? `[Inquiry${kind ? " / " + kind : ""}] ${d.name} (${d.org || "Individual"})`
+    : `【お問い合わせ${kind ? "／" + kind : ""}】${d.name}様（${d.org || "個人"}）`;
   const lines = en
     ? [
-        "To: Iseshima Seafood Export Council",
-        "",
-        `Name: ${name}`,
-        `Company / Organization: ${org || "(not provided)"}`,
-        `Email: ${email}`,
-        `Type: ${kind || "(not selected)"}`,
-        "",
-        "--- Inquiry ---",
-        body,
-        "",
+        "To: Iseshima Seafood Export Council", "",
+        `Name: ${d.name}`, `Company / Organization: ${d.org || na}`, `Email: ${d.email}`,
+        `Phone: ${d.tel || na}`, `Location: ${d.place || na}`, `Type: ${kind || na}`,
+        `Items / volume / frequency: ${d.want || na}`, "",
+        "--- Inquiry ---", d.body, "",
         "* Composed from the website contact form.",
       ]
     : [
-        "伊勢志摩水産物輸出促進協議会 御中",
-        "",
-        `お名前：${name}`,
-        `会社名・団体名：${org || "（未記入）"}`,
-        `ご連絡先メール：${email}`,
-        `ご相談の種類：${kind || "（未選択）"}`,
-        "",
-        "── ご相談内容 ──",
-        body,
-        "",
+        "伊勢志摩水産物輸出促進協議会 御中", "",
+        `お名前：${d.name}`, `会社名・団体名：${d.org || na}`, `ご連絡先メール：${d.email}`,
+        `お電話番号：${d.tel || na}`, `所在地：${d.place || na}`, `ご相談の種類：${kind || na}`,
+        `ご希望の品目・数量・頻度：${d.want || na}`, "",
+        "── ご相談内容 ──", d.body, "",
         "※本メールはWebサイトのお問い合わせフォームから作成されました。",
       ];
-  return (
-    "mailto:" + encodeURIComponent(CONTACT_EMAIL) +
-    "?subject=" + encodeURIComponent(subject) +
-    "&body=" + encodeURIComponent(lines.join("\n"))
-  );
+  return "mailto:" + encodeURIComponent(CONTACT_EMAIL) +
+    "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(lines.join("\n"));
+}
+
+function validateInquiry(d) {
+  let ok = true;
+  const mark = (id, bad) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle("is-error", bad);
+    if (bad) ok = false;
+  };
+  mark("cfName", d.name === "");
+  mark("cfBody", d.body === "");
+  mark("cfMail", d.email === "" || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email));
+  mark("cfTel", d.tel !== "" && !/^[0-9０-９+\-()（）\s]{6,40}$/.test(d.tel));
+  const row = document.getElementById("cfConsentRow");
+  if (row) row.classList.toggle("is-error", !d.consent);
+  if (!d.consent) ok = false;
+  return ok;
+}
+
+function setStatus(type, message, mailtoHref) {
+  const box = document.getElementById("formStatus");
+  if (!box) return;
+  box.className = "form-status" + (type ? " is-" + type : "");
+  box.textContent = message || "";
+  if (mailtoHref) {
+    const a = document.createElement("a");
+    a.className = "btn btn-ghost form-mail-btn";
+    a.href = mailtoHref;
+    a.textContent = currentLang === "en" ? "Send by email instead" : "メールで送る";
+    box.appendChild(document.createElement("br"));
+    box.appendChild(a);
+  }
+}
+
+async function postInquiry(data) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 20000);
+  try {
+    const res = await fetch(INQUIRY_ENDPOINT, {
+      method: "POST",
+      // text/plain にすると事前確認（CORSプリフライト）が発生せず、GASで受けられる
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(data),
+      redirect: "follow",
+      signal: ctrl.signal,
+    });
+    if (!res.ok) throw new Error("http_" + res.status);
+    const json = await res.json(); // JSONでなければ例外 → 失敗扱い
+    if (!json || json.ok !== true) throw new Error((json && json.error) || "not_ok");
+    return json;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function errorMessage(code) {
+  const en = currentLang === "en";
+  if (code === "busy") return en ? "We are receiving many inquiries right now. Please try again shortly, or send us an email." : "ただいま混み合っています。時間をおいて再度お試しいただくか、メールでお送りください。";
+  if (["required", "email", "tel", "consent"].includes(code)) return en ? "Please check the highlighted fields." : "入力内容をご確認ください。";
+  return en ? "Your message could not be sent (connection error). Nothing has been lost — please send it by email using the button below." : "送信できませんでした（通信エラー）。入力内容はそのまま残っています。下のボタンからメールでお送りください。";
 }
 
 if (contactForm) {
-  contactForm.addEventListener("submit", (e) => {
+  const kindSel = document.getElementById("cfKind");
+  if (kindSel) kindSel.addEventListener("change", toggleTradeFields);
+  toggleTradeFields();
+
+  contactForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const nameInput = document.getElementById("cfName");
-    const orgInput  = document.getElementById("cfOrg");
-    const mailInput = document.getElementById("cfMail");
-    const bodyInput = document.getElementById("cfBody");
-    const note      = document.getElementById("formNote");
+    if (inquirySending) return; // 連打防止
+    const d = collectInquiry();
+    const en = currentLang === "en";
 
-    let hasError = false;
-    [nameInput, mailInput, bodyInput].forEach((input) => {
-      const empty = input.value.trim() === "";
-      input.classList.toggle("is-error", empty);
-      if (empty) hasError = true;
-    });
-    const mailValue = mailInput.value.trim();
-    if (mailValue !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mailValue)) {
-      mailInput.classList.add("is-error");
-      hasError = true;
-    }
-
-    if (hasError) {
-      if (note) note.textContent = currentLang === "en"
-        ? "Please check the highlighted fields (required / email format)."
-        : "赤枠の項目をご確認ください（必須項目・メール形式）。";
+    if (!validateInquiry(d)) {
+      setStatus("error", en ? "Please check the highlighted fields (required / format / consent)." : "赤枠の項目をご確認ください（必須項目・形式・同意）。");
       return;
     }
-    if (note) note.textContent = currentLang === "en"
-      ? "Opening your email app… (if nothing opens, use the address below)"
-      : "メール作成画面を開いています…（開かない場合は下のアドレスへ直接ご連絡ください）";
 
-    window.location.href = buildMailto(
-      nameInput.value.trim(), orgInput.value.trim(), mailValue, bodyInput.value.trim()
-    );
+    // 送信先が未設定なら従来どおりメール作成画面を開く
+    if (!INQUIRY_ENDPOINT) {
+      setStatus("", en ? "Opening your email app… (if nothing opens, use the address below)" : "メール作成画面を開いています…（開かない場合は下のアドレスへ直接ご連絡ください）");
+      window.location.href = buildMailto(d);
+      return;
+    }
+
+    const btn = document.getElementById("cfSubmit");
+    inquirySending = true;
+    if (btn) { btn.disabled = true; btn.setAttribute("aria-busy", "true"); }
+    setStatus("", en ? "Sending…" : "送信中です…");
+
+    try {
+      const res = await postInquiry(d);
+      setStatus("ok", res.caseId
+        ? (en ? `Thank you. Your inquiry has been received (reference: ${res.caseId}). Our secretariat will contact you shortly.`
+              : `送信しました。受付番号：${res.caseId}　事務局より追ってご連絡いたします。`)
+        : (en ? "Thank you. Your inquiry has been received." : "送信しました。事務局より追ってご連絡いたします。"));
+      contactForm.reset();
+      toggleTradeFields();
+      inquiryRequestId = newRequestId(); // 次の問い合わせは新しいID
+    } catch (err) {
+      const code = err && err.name === "AbortError" ? "timeout" : String((err && err.message) || "");
+      const isInput = ["required", "email", "tel", "consent"].includes(code);
+      setStatus("error", errorMessage(code), isInput ? null : buildMailto(d));
+    } finally {
+      inquirySending = false;
+      if (btn) { btn.disabled = false; btn.removeAttribute("aria-busy"); }
+    }
   });
 
   contactForm.querySelectorAll("input, textarea").forEach((input) => {
     input.addEventListener("input", () => input.classList.remove("is-error"));
+  });
+  const consent = document.getElementById("cfConsent");
+  if (consent) consent.addEventListener("change", () => {
+    const row = document.getElementById("cfConsentRow");
+    if (row) row.classList.remove("is-error");
   });
 }
 
